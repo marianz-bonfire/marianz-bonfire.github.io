@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node · Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #0b0e18;
+            background-image: radial-gradient(circle, #2a334a 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+
+        .portfolio-card {
+            max-width: 1300px;
+            width: 100%;
+            border-radius: 48px;
+            padding: 40px 30px 50px;
+        }
+
+        .node-tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* --- main node (rectangular with circular count badge at bottom center) --- */
+        .main-node-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-node {
+            background: #1e263b;
+            border: 2px solid #4d5a7a;
+            border-radius: 16px;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 6px 0 #0b0f18, 0 10px 20px rgba(0,0,0,0.5);
+            position: relative;
+            min-width: 280px;
+            justify-content: center;
+        }
+        .main-node:hover {
+            border-color: #7c8fc9;
+            background: #232d46;
+        }
+        .main-node .name {
+            color: #f0f4ff;
+            font-weight: 600;
+            font-size: 1.6rem;
+            letter-spacing: 0.5px;
+        }
+        .main-node .name i {
+            color: #8099e6;
+            margin-right: 10px;
+        }
+        .main-node .badge {
+            background: #2f3b5a;
+            color: #b2c6ff;
+            border-radius: 40px;
+            padding: 0 14px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            line-height: 26px;
+            border: 1px solid #4a5a7c;
+        }
+        .collapse-icon {
+            margin-left: 8px;
+            font-size: 0.8rem;
+            color: #6d84c2;
+            transition: transform 0.3s;
+        }
+        .collapse-icon.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        /* Circular count badge at bottom center */
+        .main-count-circle {
+            position: absolute;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2d3f6b;
+            border: 2px solid #6880c0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px #00000066, inset 0 0 10px rgba(255, 255, 255, 0.05);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            z-index: 2;
+        }
+        .main-count-circle span {
+            font-size: 0.7rem;
+        }
+
+        /* --- sub level container --- */
+        .sub-level {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px 30px;
+            margin-top: 30px;
+            padding: 15px 10px;
+            position: relative;
+            width: 100%;
+            z-index: 5;
+            transition: all 0.3s;
+        }
+        .sub-level.hidden-level {
+            display: none !important;
+        }
+
+        .sub-node-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* sub node - rectangular rounded */
+        .sub-node {
+            background: #18202f;
+            border-radius: 14px;
+            padding: 14px 24px;
+            border: 2px solid #3d4a6b;
+            box-shadow: 0 5px 0 #0b0f18, 0 8px 20px rgba(0, 0, 0, 0.6);
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+            text-align: center;
+            color: #d3defa;
+            min-width: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .sub-node:hover {
+            border-color: #7e93d0;
+            background: #1f2a42;
+            transform: translateY(-2px);
+        }
+        .sub-node .node-icon {
+            font-size: 1.8rem;
+            color: #4e649b;
+            display: block;
+            transition: color 0.2s;
+        }
+        .sub-node .node-icon.active-gear {
+            color: #7e93d0;
+            animation: spin 3s linear infinite;
+            filter: drop-shadow(0 0 12px rgba(94, 128, 237, 0.6));
+        }
+        .sub-node .label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #0e1422cc;
+            padding: 2px 12px;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+            border: 1px solid #36466b;
+            color: #ccdbff;
+        }
+        .sub-node .count-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #2d3f6b;
+            border: 1px solid #6880c0;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border-radius: 30px;
+            min-width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 8px;
+            box-shadow: 0 2px 6px #00000066;
+        }
+        .sub-node.active-sub {
+            border-color: #7e93d0;
+            box-shadow: 0 0 30px rgba(94, 128, 237, 0.25), 0 5px 0 #0b0f18;
+        }
+
+        /* Spinning gear indicator on selected node (info tag) */
+        .info-tag {
+            color: #8499cf;
+            font-size: 0.5rem;
+            margin-top: 4px;
+            letter-spacing: 0.3px;
+            background: #1b2338;
+            padding: 2px 10px;
+            border-radius: 30px;
+            border: 1px solid #2f3d64;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .info-tag .spinner-icon {
+            display: none;
+            font-size: 0.6rem;
+            animation: spin 1s linear infinite;
+        }
+        .info-tag .spinner-icon.active {
+            display: inline-block;
+        }
+        .info-tag .click-text {
+            display: inline;
+        }
+        .info-tag .click-text.hidden {
+            display: none;
+        }
+
+        /* --- nested level --- */
+        .nested-level {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px 24px;
+            margin-top: 20px;
+            padding: 20px 16px 16px;
+            width: 100%;
+            position: relative;
+            transition: all 0.3s;
+            min-height: 50px;
+            background: rgba(15, 20, 36, 0.4);
+            border-radius: 20px;
+            border: 1px dashed #2a3655;
+        }
+        .nested-level.hidden-level {
+            display: none !important;
+        }
+
+        /* --- info items --- */
+        .info-item {
+            background: #111826;
+            border-radius: 12px;
+            padding: 12px 20px;
+            border: 2px solid #2a3655;
+            box-shadow: 0 4px 0 #0a0e18, 0 6px 14px #00000055;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #c2d2ff;
+            font-size: 0.85rem;
+        }
+        .info-item i {
+            color: #6a84c8;
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+        .info-item .info-badge {
+            background: #1f2d52;
+            border-radius: 30px;
+            padding: 0 12px;
+            font-size: 0.7rem;
+            line-height: 22px;
+            border: 1px solid #3d5585;
+            color: #8aa0d8;
+        }
+
+        /* --- education items --- */
+        .edu-item {
+            background: #111826;
+            border-radius: 14px;
+            padding: 16px 24px;
+            border: 2px solid #2a3655;
+            box-shadow: 0 4px 0 #0a0e18, 0 6px 14px #00000055;
+            min-width: 200px;
+            color: #c2d2ff;
+        }
+        .edu-item .edu-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #e0ecff;
+        }
+        .edu-item .edu-address {
+            font-size: 0.85rem;
+            color: #8aa0d8;
+            margin-top: 2px;
+        }
+        .edu-item .edu-degree {
+            font-size: 0.8rem;
+            color: #6a84b8;
+            margin-top: 4px;
+        }
+
+        /* --- skill category items --- */
+        .skill-category {
+            background: #111826;
+            border-radius: 14px;
+            padding: 16px 20px;
+            border: 2px solid #2a3655;
+            box-shadow: 0 4px 0 #0a0e18, 0 6px 14px #00000055;
+            min-width: 200px;
+            max-width: 350px;
+            flex: 1;
+            color: #c2d2ff;
+        }
+        .skill-category .cat-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #e0ecff;
+            border-bottom: 1px solid #1f2d52;
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+        }
+        .skill-category .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 8px;
+        }
+        .skill-category .skill-tag {
+            background: #0e1422;
+            border: 1px solid #2a3655;
+            border-radius: 20px;
+            padding: 2px 12px;
+            font-size: 0.7rem;
+            color: #b0c4ee;
+        }
+
+        /* --- project items --- */
+        .project-item {
+            background: #111826;
+            border-radius: 14px;
+            padding: 16px 20px;
+            border: 2px solid #2a3655;
+            box-shadow: 0 4px 0 #0a0e18, 0 6px 14px #00000055;
+            min-width: 180px;
+            max-width: 300px;
+            flex: 1;
+            color: #c2d2ff;
+        }
+        .project-item .proj-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #e0ecff;
+        }
+        .project-item .proj-type {
+            font-size: 0.7rem;
+            color: #6a84b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .project-item .proj-desc {
+            font-size: 0.8rem;
+            color: #b0c4ee;
+            margin-top: 4px;
+        }
+        .project-item .proj-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 6px;
+        }
+        .project-item .proj-tech span {
+            background: #0e1422;
+            border: 1px solid #2a3655;
+            border-radius: 20px;
+            padding: 1px 10px;
+            font-size: 0.6rem;
+            color: #8aa0d8;
+        }
+
+        /* --- experience items --- */
+        .exp-item {
+            background: #111826;
+            border-radius: 14px;
+            padding: 16px 24px;
+            border: 2px solid #2a3655;
+            box-shadow: 0 4px 0 #0a0e18, 0 6px 14px #00000055;
+            min-width: 200px;
+            max-width: 320px;
+            flex: 1;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #c2d2ff;
+        }
+        .exp-item:hover {
+            background: #1a2340;
+            border-color: #5a72b0;
+            transform: translateY(-2px);
+        }
+        .exp-item .exp-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #e0ecff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        .exp-item .exp-title i {
+            color: #6a84c8;
+            font-size: 1rem;
+        }
+        .exp-item .exp-company {
+            font-size: 0.85rem;
+            color: #8aa0d8;
+            margin-top: 2px;
+            padding-left: 4px;
+        }
+        .exp-item .exp-date {
+            font-size: 0.75rem;
+            color: #6a84b8;
+            padding-left: 4px;
+        }
+        .exp-item .exp-details {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #1f2d52;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .exp-item .exp-details.open {
+            display: flex;
+        }
+        .exp-item .exp-details .detail-bullet {
+            font-size: 0.78rem;
+            color: #b0c4ee;
+            padding-left: 4px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            line-height: 1.4;
+        }
+        .exp-item .exp-details .detail-bullet i {
+            color: #5a72b0;
+            font-size: 0.5rem;
+            margin-top: 5px;
+        }
+        .exp-item .exp-details .detail-bullet span {
+            flex: 1;
+        }
+        .exp-item .expand-icon {
+            font-size: 0.7rem;
+            color: #6d84c2;
+            transition: transform 0.2s;
+        }
+        .exp-item .expand-icon.open {
+            transform: rotate(180deg);
+        }
+
+        /* ----- connector SVG (orthogonal with rounded corners) ----- */
+        .connector-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .connector-svg path {
+            fill: none;
+            stroke-linejoin: round;
+            transition: stroke 0.3s, stroke-dasharray 0.3s, filter 0.3s;
+        }
+        .connector-svg path.inactive-path {
+            stroke: #3d4a6b;
+            stroke-width: 2;
+            stroke-dasharray: 4 4;
+        }
+        .connector-svg path.active-path {
+            stroke: #7e93d0;
+            stroke-width: 3;
+            stroke-dasharray: 10 6;
+            animation: dashMove 0.6s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(94, 128, 237, 0.5)) drop-shadow(0 0 25px rgba(94, 128, 237, 0.2));
+        }
+        .connector-svg path.glow-path {
+            stroke: #7e93d0;
+            stroke-width: 6;
+            stroke-dasharray: 10 6;
+            animation: dashMove 0.6s linear infinite;
+            filter: drop-shadow(0 0 20px rgba(94, 128, 237, 0.4)) drop-shadow(0 0 40px rgba(94, 128, 237, 0.15));
+            opacity: 0.3;
+        }
+        .connector-svg circle {
+            transition: fill 0.3s, filter 0.3s, r 0.3s;
+        }
+        .connector-svg circle.inactive-circle {
+            fill: #3d4a6b;
+            r: 3.5;
+        }
+        .connector-svg circle.active-circle {
+            fill: #7e93d0;
+            r: 5;
+            filter: drop-shadow(0 0 8px rgba(94, 128, 237, 0.6));
+        }
+        @keyframes dashMove {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -16; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 700px) {
+            .main-node { min-width: 200px; padding: 12px 20px; }
+            .main-node .name { font-size: 1.2rem; }
+            .main-count-circle { width: 30px; height: 30px; font-size: 0.65rem; bottom: -15px; }
+            .sub-node { min-width: 100px; padding: 10px 16px; }
+            .skill-category { min-width: 160px; }
+            .project-item { min-width: 160px; }
+        }
+    </style>
+</head>
+<body>
+<div class="portfolio-card">
+    <div class="node-tree" id="nodeTree">
+
+        <!-- MAIN NODE - Rectangular with circular count badge at bottom center -->
+        <div class="main-node-wrapper">
+            <div class="main-node" id="mainNodeToggle">
+                <span class="name"><i class="fas fa-user-astronaut"></i>John Doe</span>
+                <span class="badge"><i class="fas fa-sitemap"></i> 5 nodes</span>
+                <span class="collapse-icon" id="mainToggleIcon"><i class="fas fa-chevron-down"></i></span>
+                <div class="main-count-circle">
+                    <span>5</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUB LEVEL -->
+        <div id="subLevelContainer" class="sub-level"></div>
+
+        <!-- NESTED LEVELS container -->
+        <div id="nestedContainer"></div>
+
+        <!-- SVG connector overlay -->
+        <svg class="connector-svg" id="connectorSvg"></svg>
+    </div>
+</div>
+
+<script>
+    (function() {
+        //  JSON DATA 
+        const portfolioData = {
+            name: "John Doe",
+            nodes: [
+                {
+                    id: "basic",
+                    label: "Basic Info",
+                    icon: "fa-user",
+                    count: 6,
+                    details: [
+                        { icon: "fa-phone", text: "+63 912 345 6789", badge: "Contact" },
+                        { icon: "fa-envelope", text: "john.doe@email.com", badge: "Email" },
+                        { icon: "fa-globe", text: "github.com/johndoe", badge: "GitHub" },
+                        { icon: "fa-globe", text: "bitbucket.org/johndoe", badge: "Bitbucket" },
+                        { icon: "fa-globe", text: "@johndoe", badge: "Social" },
+                        { icon: "fa-globe", text: "johndoe.dev", badge: "Website" }
+                    ]
+                },
+                {
+                    id: "experience",
+                    label: "Experience",
+                    icon: "fa-briefcase",
+                    count: 3,
+                    experiences: [
+                        {
+                            title: "SENIOR SOFTWARE ENGINEER",
+                            company: "Tech Innovations Inc.",
+                            date: "January 2022 - Present",
+                            details: [
+                                "Designed and developed enterprise-grade applications using C# and .NET Core.",
+                                "Led a team of 8 developers in agile development cycles.",
+                                "Implemented microservices architecture improving system scalability by 40%."
+                            ]
+                        },
+                        {
+                            title: "FULL STACK DEVELOPER",
+                            company: "Digital Solutions Corp",
+                            date: "June 2019 - December 2021",
+                            details: [
+                                "Built responsive web applications using React.js and Node.js.",
+                                "Integrated RESTful APIs and third-party services.",
+                                "Optimized database queries improving performance by 30%."
+                            ]
+                        },
+                        {
+                            title: "JUNIOR DEVELOPER",
+                            company: "Startup Hub",
+                            date: "January 2018 - May 2019",
+                            details: [
+                                "Developed internal tools for business process automation.",
+                                "Maintained and debugged existing codebase.",
+                                "Collaborated with designers to implement UI/UX improvements."
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "education",
+                    label: "Education",
+                    icon: "fa-graduation-cap",
+                    count: 2,
+                    education: [
+                        {
+                            school: "University of Technology",
+                            address: "Metro Manila, Philippines",
+                            degree: "M.S. Computer Science"
+                        },
+                        {
+                            school: "State University",
+                            address: "Laguna, Philippines",
+                            degree: "B.S. Computer Engineering"
+                        }
+                    ]
+                },
+                {
+                    id: "skills",
+                    label: "Skills",
+                    icon: "fa-code",
+                    count: 10,
+                    skillCategories: [
+                        {
+                            name: "Programming Languages",
+                            tags: ["C#", "Visual Basic .NET", "Java", "Kotlin", "PHP", "JavaScript (ES6+)", "TypeScript", "Python", "C++", "Dart", "SQL", "HTML5", "CSS3"]
+                        },
+                        {
+                            name: "Backend Technologies",
+                            tags: ["ASP.NET Web API", ".NET Framework", "Laravel", "RESTful API", "Swagger/OpenAPI"]
+                        },
+                        {
+                            name: "Frontend Technologies",
+                            tags: ["Vue.js", "React.js", "Pinia", "Bootstrap", "Tailwind CSS", "jQuery", "AJAX"]
+                        },
+                        {
+                            name: "Mobile Development",
+                            tags: ["Flutter", "Native Android", "Java", "Kotlin", "SQLite", "Material Design"]
+                        },
+                        {
+                            name: "Databases",
+                            tags: ["Microsoft SQL Server", "MySQL", "MariaDB", "SQLite", "Microsoft Access"]
+                        },
+                        {
+                            name: "DevOps & Networking",
+                            tags: ["Git", "GitHub", "TortoiseSVN", "Jenkins", "VMware ESXi", "Windows Server", "Active Directory", "Cloudflare", "Tailscale", "ngrok", "Network Administration", "VPN Configuration", "DNS Management"]
+                        },
+                        {
+                            name: "Development Tools",
+                            tags: ["Visual Studio", "VS Code", "Android Studio", "Eclipse", "NetBeans", "PyCharm", "PhpStorm", "Arduino IDE", "MySQL Workbench", "Postman"]
+                        },
+                        {
+                            name: "Computer Vision & Libraries",
+                            tags: ["OpenCV", "DevExpress", "Telerik UI", "DevComponents"]
+                        },
+                        {
+                            name: "Embedded Systems & Hardware",
+                            tags: ["Arduino", "MSP430 LaunchPad", "AVR Dragon", "PCB Design", "Circuit Schematic", "Hardware Prototyping"]
+                        },
+                        {
+                            name: "Methodologies",
+                            tags: ["Agile (Scrum)", "OOP", "Design Patterns", "ERP Development", "POS Systems", "SAP Integration", "SDLC"]
+                        }
+                    ]
+                },
+                {
+                    id: "projects",
+                    label: "Projects",
+                    icon: "fa-folder-open",
+                    count: 6,
+                    projects: [
+                        {
+                            title: "Asset Management System",
+                            type: "Company Project",
+                            category: "Software",
+                            desc: "Enterprise asset tracking system with RFID integration and real-time monitoring.",
+                            tech: ["C#", "ASP.NET", "MSSQL", "RFID"]
+                        },
+                        {
+                            title: "IoT Smart Home Controller",
+                            type: "Personal Project",
+                            category: "Hardware",
+                            desc: "Arduino-based home automation system with mobile app control.",
+                            tech: ["Arduino", "Flutter", "Firebase", "MQTT"]
+                        },
+                        {
+                            title: "E-Commerce Platform",
+                            type: "Company Project",
+                            category: "Software",
+                            desc: "Full-featured e-commerce platform with payment gateway integration.",
+                            tech: ["React", "Node.js", "MongoDB", "Stripe"]
+                        },
+                        {
+                            title: "Robotics Arm Controller",
+                            type: "Personal Project",
+                            category: "Hardware",
+                            desc: "Custom robotic arm with gesture control and computer vision.",
+                            tech: ["Python", "OpenCV", "Arduino", "Servo"]
+                        },
+                        {
+                            title: "Inventory Management POS",
+                            type: "Company Project",
+                            category: "Software",
+                            desc: "Point of Sale system with inventory tracking and reporting.",
+                            tech: ["Java", "SQLite", "JavaFX"]
+                        },
+                        {
+                            title: "Weather Station",
+                            type: "Personal Project",
+                            category: "Hardware",
+                            desc: "Portable weather monitoring system with data logging.",
+                            tech: ["ESP8266", "Python", "Sensors", "WiFi"]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const tree = document.getElementById('nodeTree');
+        const svg = document.getElementById('connectorSvg');
+        const subLevelContainer = document.getElementById('subLevelContainer');
+        const nestedContainer = document.getElementById('nestedContainer');
+        let activeSubNode = null;
+        let currentlyOpenNode = null;
+        const nestedContentMap = new Map();
+
+        //  Generate sub-nodes 
+        function generateSubNodes() {
+            subLevelContainer.innerHTML = '';
+            portfolioData.nodes.forEach((node, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'sub-node-wrapper';
+                wrapper.dataset.wrapper = node.id;
+
+                const subNode = document.createElement('div');
+                subNode.className = 'sub-node';
+                subNode.dataset.target = node.id;
+                subNode.dataset.index = index;
+
+                const icon = document.createElement('i');
+                icon.className = `fas ${node.icon} node-icon`;
+                icon.dataset.icon = node.id;
+
+                const label = document.createElement('span');
+                label.className = 'label';
+                label.textContent = node.label;
+
+                const badge = document.createElement('span');
+                badge.className = 'count-badge';
+                badge.textContent = node.count;
+
+                subNode.appendChild(icon);
+                subNode.appendChild(label);
+                subNode.appendChild(badge);
+
+                const infoTag = document.createElement('div');
+                infoTag.className = 'info-tag';
+                infoTag.innerHTML = `
+                    <i class="fas fa-spinner spinner-icon"></i>
+                    <span class="click-text">click</span>
+                `;
+                infoTag.dataset.target = node.id;
+
+                wrapper.appendChild(subNode);
+                wrapper.appendChild(infoTag);
+                subLevelContainer.appendChild(wrapper);
+
+                const nestedDiv = document.createElement('div');
+                nestedDiv.id = `nested-${node.id}`;
+                nestedDiv.className = 'nested-level hidden-level';
+                nestedContainer.appendChild(nestedDiv);
+                nestedContentMap.set(node.id, nestedDiv);
+            });
+        }
+
+        //  Load nested content 
+        function loadNestedContent(nodeId) {
+            const node = portfolioData.nodes.find(n => n.id === nodeId);
+            if (!node) return;
+
+            const container = nestedContentMap.get(nodeId);
+            if (!container) return;
+            if (container.children.length > 0) return;
+            
+            container.innerHTML = '';
+
+            if (nodeId === 'basic' && node.details) {
+                node.details.forEach(detail => {
+                    const div = document.createElement('div');
+                    div.className = 'info-item';
+                    const icon = document.createElement('i');
+                    icon.className = detail.icon.startsWith('fab') ? detail.icon : `fas ${detail.icon}`;
+                    div.appendChild(icon);
+                    const textNode = document.createTextNode(` ${detail.text}`);
+                    div.appendChild(textNode);
+                    if (detail.badge) {
+                        const badge = document.createElement('span');
+                        badge.className = 'info-badge';
+                        badge.textContent = detail.badge;
+                        div.appendChild(badge);
+                    }
+                    container.appendChild(div);
+                });
+            } else if (nodeId === 'experience' && node.experiences) {
+                node.experiences.forEach((exp, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'exp-item';
+                    div.dataset.expIndex = idx;
+
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'exp-title';
+                    titleDiv.innerHTML = `<i class="fas fa-briefcase"></i> ${exp.title}`;
+                    
+                    const expandIcon = document.createElement('i');
+                    expandIcon.className = 'fas fa-chevron-down expand-icon';
+                    titleDiv.appendChild(expandIcon);
+                    div.appendChild(titleDiv);
+
+                    const companyDiv = document.createElement('div');
+                    companyDiv.className = 'exp-company';
+                    companyDiv.textContent = exp.company;
+                    div.appendChild(companyDiv);
+
+                    const dateDiv = document.createElement('div');
+                    dateDiv.className = 'exp-date';
+                    dateDiv.textContent = exp.date;
+                    div.appendChild(dateDiv);
+
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.className = 'exp-details';
+                    exp.details.forEach(detail => {
+                        const bullet = document.createElement('div');
+                        bullet.className = 'detail-bullet';
+                        bullet.innerHTML = `<i class="fas fa-circle"></i><span>${detail}</span>`;
+                        detailsDiv.appendChild(bullet);
+                    });
+                    div.appendChild(detailsDiv);
+
+                    div.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const details = this.querySelector('.exp-details');
+                        const icon = this.querySelector('.expand-icon');
+                        if (details) {
+                            details.classList.toggle('open');
+                            if (icon) icon.classList.toggle('open');
+                        }
+                        refreshConnectors();
+                    });
+
+                    container.appendChild(div);
+                });
+            } else if (nodeId === 'education' && node.education) {
+                node.education.forEach(edu => {
+                    const div = document.createElement('div');
+                    div.className = 'edu-item';
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'edu-name';
+                    nameDiv.textContent = edu.school;
+                    div.appendChild(nameDiv);
+                    const addrDiv = document.createElement('div');
+                    addrDiv.className = 'edu-address';
+                    addrDiv.textContent = edu.address;
+                    div.appendChild(addrDiv);
+                    const degDiv = document.createElement('div');
+                    degDiv.className = 'edu-degree';
+                    degDiv.textContent = edu.degree;
+                    div.appendChild(degDiv);
+                    container.appendChild(div);
+                });
+            } else if (nodeId === 'skills' && node.skillCategories) {
+                node.skillCategories.forEach(cat => {
+                    const div = document.createElement('div');
+                    div.className = 'skill-category';
+                    const title = document.createElement('div');
+                    title.className = 'cat-title';
+                    title.textContent = cat.name;
+                    div.appendChild(title);
+                    const tags = document.createElement('div');
+                    tags.className = 'skill-tags';
+                    cat.tags.forEach(tag => {
+                        const span = document.createElement('span');
+                        span.className = 'skill-tag';
+                        span.textContent = tag;
+                        tags.appendChild(span);
+                    });
+                    div.appendChild(tags);
+                    container.appendChild(div);
+                });
+            } else if (nodeId === 'projects' && node.projects) {
+                node.projects.forEach(proj => {
+                    const div = document.createElement('div');
+                    div.className = 'project-item';
+                    const title = document.createElement('div');
+                    title.className = 'proj-title';
+                    title.textContent = proj.title;
+                    div.appendChild(title);
+                    const type = document.createElement('div');
+                    type.className = 'proj-type';
+                    type.textContent = `${proj.type} · ${proj.category}`;
+                    div.appendChild(type);
+                    const desc = document.createElement('div');
+                    desc.className = 'proj-desc';
+                    desc.textContent = proj.desc;
+                    div.appendChild(desc);
+                    const tech = document.createElement('div');
+                    tech.className = 'proj-tech';
+                    proj.tech.forEach(t => {
+                        const span = document.createElement('span');
+                        span.textContent = t;
+                        tech.appendChild(span);
+                    });
+                    div.appendChild(tech);
+                    container.appendChild(div);
+                });
+            }
+        }
+
+        //  Connector with rounded corners 
+        function addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive = false) {
+            const dx = x2 - x1;
+            const dy = y2 - y1;
+            const radius = 12;
+            
+            let d;
+            if (Math.abs(dx) > Math.abs(dy)) {
+                const midY = (y1 + y2) / 2;
+                const r = Math.min(radius, Math.abs(dy) / 2, Math.abs(dx) / 2);
+                
+                if (dy >= 0) {
+                    d = `M ${x1} ${y1} L ${x1} ${midY - r} Q ${x1} ${midY}, ${x1 + (dx > 0 ? r : -r)} ${midY} L ${x2 - (dx > 0 ? r : -r)} ${midY} Q ${x2} ${midY}, ${x2} ${midY + r} L ${x2} ${y2}`;
+                } else {
+                    d = `M ${x1} ${y1} L ${x1} ${midY + r} Q ${x1} ${midY}, ${x1 + (dx > 0 ? r : -r)} ${midY} L ${x2 - (dx > 0 ? r : -r)} ${midY} Q ${x2} ${midY}, ${x2} ${midY - r} L ${x2} ${y2}`;
+                }
+            } else {
+                const midX = (x1 + x2) / 2;
+                const r = Math.min(radius, Math.abs(dx) / 2, Math.abs(dy) / 2);
+                
+                if (dx >= 0) {
+                    d = `M ${x1} ${y1} L ${midX - r} ${y1} Q ${midX} ${y1}, ${midX} ${y1 + (dy > 0 ? r : -r)} L ${midX} ${y2 - (dy > 0 ? r : -r)} Q ${midX} ${y2}, ${midX + r} ${y2} L ${x2} ${y2}`;
+                } else {
+                    d = `M ${x1} ${y1} L ${midX + r} ${y1} Q ${midX} ${y1}, ${midX} ${y1 + (dy > 0 ? r : -r)} L ${midX} ${y2 - (dy > 0 ? r : -r)} Q ${midX} ${y2}, ${midX - r} ${y2} L ${x2} ${y2}`;
+                }
+            }
+            
+            if (isActive) {
+                const glowPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                glowPath.setAttribute('d', d);
+                glowPath.classList.add('glow-path');
+                svg.appendChild(glowPath);
+            }
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', d);
+            if (isActive) {
+                path.classList.add('active-path');
+            } else {
+                path.classList.add('inactive-path');
+            }
+            svg.appendChild(path);
+
+            // End circle (sub-node side)
+            const circle2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle2.setAttribute('cx', x2);
+            circle2.setAttribute('cy', y2);
+            if (isActive) {
+                circle2.classList.add('active-circle');
+            } else {
+                circle2.classList.add('inactive-circle');
+            }
+            svg.appendChild(circle2);
+        }
+
+        function updateConnectors() {
+            svg.innerHTML = '';
+            const treeRect = tree.getBoundingClientRect();
+            const mainNode = document.querySelector('.main-node');
+            const mainRect = mainNode.getBoundingClientRect();
+            const subLevel = document.getElementById('subLevelContainer');
+            const wrappers = document.querySelectorAll('.sub-node-wrapper');
+
+            if (!subLevel.classList.contains('hidden-level')) {
+                wrappers.forEach(w => {
+                    const subNode = w.querySelector('.sub-node');
+                    const subRect = subNode.getBoundingClientRect();
+                    const x1 = mainRect.left + mainRect.width/2 - treeRect.left;
+                    const y1 = mainRect.bottom - treeRect.top;
+                    const x2 = subRect.left + subRect.width/2 - treeRect.left;
+                    const y2 = subRect.top - treeRect.top;
+                    const isActive = subNode === activeSubNode;
+                    addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive);
+                });
+
+                wrappers.forEach(w => {
+                    const subNode = w.querySelector('.sub-node');
+                    const targetId = subNode.dataset.target;
+                    const nested = document.getElementById(`nested-${targetId}`);
+                    if (!nested || nested.classList.contains('hidden-level')) return;
+
+                    const subRect = subNode.getBoundingClientRect();
+                    const nestedRect = nested.getBoundingClientRect();
+                    const x1 = subRect.left + subRect.width/2 - treeRect.left;
+                    const y1 = subRect.bottom - treeRect.top;
+                    const x2 = nestedRect.left + nestedRect.width/2 - treeRect.left;
+                    const y2 = nestedRect.top - treeRect.top;
+                    const isActive = subNode === activeSubNode;
+                    addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive);
+                });
+            }
+        }
+
+        function refreshConnectors() {
+            requestAnimationFrame(() => {
+                updateConnectors();
+            });
+        }
+
+        window.addEventListener('resize', refreshConnectors);
+
+        //  Main toggle 
+        const mainNode = document.getElementById('mainNodeToggle');
+        const mainIcon = document.getElementById('mainToggleIcon');
+
+        mainNode.addEventListener('click', function(e) {
+            e.stopPropagation();
+            subLevelContainer.classList.toggle('hidden-level');
+            mainIcon.classList.toggle('collapsed');
+
+            if (subLevelContainer.classList.contains('hidden-level')) {
+                document.querySelectorAll('.nested-level').forEach(el => {
+                    el.classList.add('hidden-level');
+                });
+                document.querySelectorAll('.node-icon').forEach(g => g.classList.remove('active-gear'));
+                document.querySelectorAll('.sub-node').forEach(n => n.classList.remove('active-sub'));
+                document.querySelectorAll('.spinner-icon').forEach(s => s.classList.remove('active'));
+                document.querySelectorAll('.click-text').forEach(t => t.classList.remove('hidden'));
+                activeSubNode = null;
+                currentlyOpenNode = null;
+            }
+            refreshConnectors();
+        });
+
+        //  Sub-node click handler 
+        function setupSubNodeClick() {
+            const subNodes = document.querySelectorAll('.sub-node');
+            subNodes.forEach(node => {
+                node.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const targetId = this.dataset.target;
+                    if (!targetId) return;
+                    
+                    const nestedEl = document.getElementById(`nested-${targetId}`);
+                    if (!nestedEl) return;
+                    const infoTag = document.querySelector(`.info-tag[data-target="${targetId}"]`);
+                    const spinner = infoTag ? infoTag.querySelector('.spinner-icon') : null;
+                    const clickText = infoTag ? infoTag.querySelector('.click-text') : null;
+
+                    if (subLevelContainer.classList.contains('hidden-level')) {
+                        this.style.borderColor = '#ff6b6b';
+                        setTimeout(() => { this.style.borderColor = ''; }, 300);
+                        return;
+                    }
+
+                    if (nestedEl.children.length === 0) {
+                        loadNestedContent(targetId);
+                    }
+
+                    if (currentlyOpenNode === targetId) {
+                        nestedEl.classList.add('hidden-level');
+                        this.classList.remove('active-sub');
+                        const icon = this.querySelector('.node-icon');
+                        if (icon) icon.classList.remove('active-gear');
+                        if (spinner) spinner.classList.remove('active');
+                        if (clickText) clickText.classList.remove('hidden');
+                        activeSubNode = null;
+                        currentlyOpenNode = null;
+                        refreshConnectors();
+                        return;
+                    }
+
+                    document.querySelectorAll('.nested-level').forEach(el => {
+                        el.classList.add('hidden-level');
+                    });
+                    document.querySelectorAll('.sub-node').forEach(n => {
+                        n.classList.remove('active-sub');
+                        const ic = n.querySelector('.node-icon');
+                        if (ic) ic.classList.remove('active-gear');
+                    });
+                    document.querySelectorAll('.spinner-icon').forEach(s => s.classList.remove('active'));
+                    document.querySelectorAll('.click-text').forEach(t => t.classList.remove('hidden'));
+
+                    nestedEl.classList.remove('hidden-level');
+                    this.classList.add('active-sub');
+                    activeSubNode = this;
+                    currentlyOpenNode = targetId;
+                    const icon = this.querySelector('.node-icon');
+                    if (icon) icon.classList.add('active-gear');
+                    if (spinner) spinner.classList.add('active');
+                    if (clickText) clickText.classList.add('hidden');
+
+                    this.style.transition = '0.08s';
+                    this.style.transform = 'scale(0.96)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 120);
+
+                    refreshConnectors();
+                });
+            });
+        }
+
+        //  Initialize 
+        function init() {
+            generateSubNodes();
+            setupSubNodeClick();
+            setTimeout(refreshConnectors, 200);
+            window.addEventListener('load', refreshConnectors);
+        }
+
+        init();
+
+        const observer = new MutationObserver(() => refreshConnectors());
+        observer.observe(tree, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+
+        document.addEventListener('click', function() {
+            setTimeout(refreshConnectors, 50);
+        });
+
+    })();
+</script>
+</body>
+</html>
