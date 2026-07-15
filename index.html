@@ -16,12 +16,160 @@
         body {
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
             background: #0b0e18;
             background-image: radial-gradient(circle, #2a334a 1px, transparent 1px);
             background-size: 28px 28px;
+        }
+
+        /* --- floating toolbar --- */
+        .floating-toolbar {
+            position: fixed;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 100;
+            background: #151b2e;
+            border: 1px solid #2a3655;
+            border-radius: 14px;
+            padding: 8px 6px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
+        }
+        .toolbar-btn {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            color: #6a84c8;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .toolbar-btn:hover {
+            background: #1e2a45;
+            color: #a0b8ff;
+        }
+        .toolbar-btn.active {
+            background: #1e2a45;
+            color: #7e93d0;
+            box-shadow: inset 0 0 0 1.5px #3d5585;
+        }
+        .toolbar-btn .toolbar-tooltip {
+            position: absolute;
+            left: calc(100% + 10px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1e263b;
+            color: #c2d2ff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #3d4a6b;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .toolbar-btn:hover .toolbar-tooltip {
+            opacity: 1;
+        }
+        .toolbar-divider {
+            height: 1px;
+            background: #2a3655;
+            margin: 2px 4px;
+        }
+
+        /* --- footer --- */
+        .site-footer {
+            text-align: center;
+            padding: 24px 20px 10px;
+            color: #4a5a7c;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+
+        /* --- project category wrappers inside nested --- */
+        .proj-category-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .proj-category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .proj-category-header .proj-cat-node {
+            background: #18202f;
+            border-radius: 14px;
+            padding: 10px 22px;
+            border: 2px solid #3d4a6b;
+            box-shadow: 0 5px 0 #0b0f18, 0 8px 20px rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #d3defa;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: 0.2s;
+            position: relative;
+        }
+        .proj-category-header .proj-cat-node:hover {
+            border-color: #7e93d0;
+            background: #1f2a42;
+            transform: translateY(-2px);
+        }
+        .proj-category-header .proj-cat-node i {
+            color: #4e649b;
+            font-size: 1rem;
+        }
+        .proj-category-header .proj-cat-node .cat-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #2d3f6b;
+            border: 1px solid #6880c0;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px #00000066;
+        }
+        .proj-cat-items {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px 18px;
+            padding: 10px 8px;
+            width: 100%;
+        }
+        .proj-cat-items.collapsed {
+            display: none;
         }
 
         .portfolio-card {
@@ -589,10 +737,34 @@
             .sub-node { min-width: 100px; padding: 10px 16px; }
             .skill-category { min-width: 160px; }
             .project-item { min-width: 160px; }
+            .floating-toolbar { left: 8px; padding: 6px 4px; }
+            .toolbar-btn { width: 32px; height: 32px; font-size: 0.85rem; }
         }
     </style>
 </head>
 <body>
+
+<!-- Floating Toolbar -->
+<div class="floating-toolbar">
+    <button class="toolbar-btn active" data-section="home" title="Home">
+        <i class="fas fa-home"></i>
+        <span class="toolbar-tooltip">Home</span>
+    </button>
+    <button class="toolbar-btn" data-section="projects" title="Projects">
+        <i class="fas fa-folder-open"></i>
+        <span class="toolbar-tooltip">Projects</span>
+    </button>
+    <button class="toolbar-btn" data-section="websites" title="Websites">
+        <i class="fas fa-globe"></i>
+        <span class="toolbar-tooltip">Websites</span>
+    </button>
+    <div class="toolbar-divider"></div>
+    <button class="toolbar-btn" data-section="license" title="License">
+        <i class="fas fa-file-contract"></i>
+        <span class="toolbar-tooltip">License</span>
+    </button>
+</div>
+
 <div class="portfolio-card">
     <div class="node-tree" id="nodeTree">
 
@@ -618,6 +790,10 @@
         <svg class="connector-svg" id="connectorSvg"></svg>
     </div>
 </div>
+
+<footer class="site-footer">
+    Copyright &copy; John Doe
+</footer>
 
 <script>
     (function() {
@@ -973,30 +1149,84 @@
                     container.appendChild(div);
                 });
             } else if (nodeId === 'projects' && node.projects) {
+                // Group projects by category
+                const categories = {};
+                const categoryIcons = { 'Hardware': 'fa-microchip', 'Software': 'fa-laptop-code', 'Others': 'fa-puzzle-piece' };
                 node.projects.forEach(proj => {
-                    const div = document.createElement('div');
-                    div.className = 'project-item';
-                    const title = document.createElement('div');
-                    title.className = 'proj-title';
-                    title.textContent = proj.title;
-                    div.appendChild(title);
-                    const type = document.createElement('div');
-                    type.className = 'proj-type';
-                    type.textContent = `${proj.type} · ${proj.category}`;
-                    div.appendChild(type);
-                    const desc = document.createElement('div');
-                    desc.className = 'proj-desc';
-                    desc.textContent = proj.desc;
-                    div.appendChild(desc);
-                    const tech = document.createElement('div');
-                    tech.className = 'proj-tech';
-                    proj.tech.forEach(t => {
-                        const span = document.createElement('span');
-                        span.textContent = t;
-                        tech.appendChild(span);
+                    const cat = proj.category || 'Others';
+                    if (!categories[cat]) categories[cat] = [];
+                    categories[cat].push(proj);
+                });
+
+                // Ensure order: Hardware, Software, Others
+                const catOrder = ['Hardware', 'Software', 'Others'];
+                catOrder.forEach(catName => {
+                    const items = categories[catName];
+                    if (!items || items.length === 0) return;
+
+                    const section = document.createElement('div');
+                    section.className = 'proj-category-section';
+
+                    // Category header styled like sub-node-wrapper
+                    const headerWrapper = document.createElement('div');
+                    headerWrapper.className = 'sub-node-wrapper';
+
+                    const header = document.createElement('div');
+                    header.className = 'proj-category-header';
+
+                    const catNode = document.createElement('div');
+                    catNode.className = 'proj-cat-node';
+                    catNode.innerHTML = `<i class="fas ${categoryIcons[catName] || 'fa-puzzle-piece'}"></i> ${catName}`;
+
+                    const catCount = document.createElement('span');
+                    catCount.className = 'cat-count';
+                    catCount.textContent = items.length;
+                    catNode.appendChild(catCount);
+
+                    header.appendChild(catNode);
+                    headerWrapper.appendChild(header);
+                    section.appendChild(headerWrapper);
+
+                    // Project items container
+                    const itemsContainer = document.createElement('div');
+                    itemsContainer.className = 'proj-cat-items';
+
+                    items.forEach(proj => {
+                        const div = document.createElement('div');
+                        div.className = 'project-item';
+                        const title = document.createElement('div');
+                        title.className = 'proj-title';
+                        title.textContent = proj.title;
+                        div.appendChild(title);
+                        const type = document.createElement('div');
+                        type.className = 'proj-type';
+                        type.textContent = `${proj.type} · ${proj.category}`;
+                        div.appendChild(type);
+                        const desc = document.createElement('div');
+                        desc.className = 'proj-desc';
+                        desc.textContent = proj.desc;
+                        div.appendChild(desc);
+                        const tech = document.createElement('div');
+                        tech.className = 'proj-tech';
+                        proj.tech.forEach(t => {
+                            const span = document.createElement('span');
+                            span.textContent = t;
+                            tech.appendChild(span);
+                        });
+                        div.appendChild(tech);
+                        itemsContainer.appendChild(div);
                     });
-                    div.appendChild(tech);
-                    container.appendChild(div);
+
+                    section.appendChild(itemsContainer);
+
+                    // Toggle category on click
+                    header.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        itemsContainer.classList.toggle('collapsed');
+                        refreshConnectors();
+                    });
+
+                    container.appendChild(section);
                 });
             }
         }
@@ -1214,6 +1444,35 @@
 
         document.addEventListener('click', function() {
             setTimeout(refreshConnectors, 50);
+        });
+
+        // Toolbar button click handler
+        document.querySelectorAll('.toolbar-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.querySelectorAll('.toolbar-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const section = this.dataset.section;
+                // Scroll to relevant section or trigger the matching sub-node
+                if (section === 'home') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else if (section === 'projects') {
+                    const projNode = document.querySelector('.sub-node[data-target="projects"]');
+                    if (projNode) {
+                        projNode.click();
+                        projNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } else if (section === 'websites') {
+                    const basicNode = document.querySelector('.sub-node[data-target="basic"]');
+                    if (basicNode) {
+                        basicNode.click();
+                        basicNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                } else if (section === 'license') {
+                    const footer = document.querySelector('.site-footer');
+                    if (footer) footer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
         });
 
     })();
