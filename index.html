@@ -930,48 +930,62 @@
                     label: "Projects",
                     icon: "fa-folder-open",
                     count: 6,
-                    projects: [
+                    categories: [
                         {
-                            title: "Asset Management System",
-                            type: "Company Project",
-                            category: "Software",
-                            desc: "Enterprise asset tracking system with RFID integration and real-time monitoring.",
-                            tech: ["C#", "ASP.NET", "MSSQL", "RFID"]
+                            id: "projects_hardware",
+                            name: "Hardware",
+                            icon: "fa-microchip",
+                            projects: [
+                                {
+                                    title: "IoT Smart Home Controller",
+                                    type: "Personal Project",
+                                    category: "Hardware",
+                                    desc: "Arduino-based home automation system with mobile app control.",
+                                    tech: ["Arduino", "Flutter", "Firebase", "MQTT"]
+                                },
+                                {
+                                    title: "Robotics Arm Controller",
+                                    type: "Personal Project",
+                                    category: "Hardware",
+                                    desc: "Custom robotic arm with gesture control and computer vision.",
+                                    tech: ["Python", "OpenCV", "Arduino", "Servo"]
+                                },
+                                {
+                                    title: "Weather Station",
+                                    type: "Personal Project",
+                                    category: "Hardware",
+                                    desc: "Portable weather monitoring system with data logging.",
+                                    tech: ["ESP8266", "Python", "Sensors", "WiFi"]
+                                }
+                            ]
                         },
                         {
-                            title: "IoT Smart Home Controller",
-                            type: "Personal Project",
-                            category: "Hardware",
-                            desc: "Arduino-based home automation system with mobile app control.",
-                            tech: ["Arduino", "Flutter", "Firebase", "MQTT"]
-                        },
-                        {
-                            title: "E-Commerce Platform",
-                            type: "Company Project",
-                            category: "Software",
-                            desc: "Full-featured e-commerce platform with payment gateway integration.",
-                            tech: ["React", "Node.js", "MongoDB", "Stripe"]
-                        },
-                        {
-                            title: "Robotics Arm Controller",
-                            type: "Personal Project",
-                            category: "Hardware",
-                            desc: "Custom robotic arm with gesture control and computer vision.",
-                            tech: ["Python", "OpenCV", "Arduino", "Servo"]
-                        },
-                        {
-                            title: "Inventory Management POS",
-                            type: "Company Project",
-                            category: "Software",
-                            desc: "Point of Sale system with inventory tracking and reporting.",
-                            tech: ["Java", "SQLite", "JavaFX"]
-                        },
-                        {
-                            title: "Weather Station",
-                            type: "Personal Project",
-                            category: "Hardware",
-                            desc: "Portable weather monitoring system with data logging.",
-                            tech: ["ESP8266", "Python", "Sensors", "WiFi"]
+                            id: "projects_software",
+                            name: "Software",
+                            icon: "fa-laptop-code",
+                            projects: [
+                                {
+                                    title: "Asset Management System",
+                                    type: "Company Project",
+                                    category: "Software",
+                                    desc: "Enterprise asset tracking system with RFID integration and real-time monitoring.",
+                                    tech: ["C#", "ASP.NET", "MSSQL", "RFID"]
+                                },
+                                {
+                                    title: "E-Commerce Platform",
+                                    type: "Company Project",
+                                    category: "Software",
+                                    desc: "Full-featured e-commerce platform with payment gateway integration.",
+                                    tech: ["React", "Node.js", "MongoDB", "Stripe"]
+                                },
+                                {
+                                    title: "Inventory Management POS",
+                                    type: "Company Project",
+                                    category: "Software",
+                                    desc: "Point of Sale system with inventory tracking and reporting.",
+                                    tech: ["Java", "SQLite", "JavaFX"]
+                                }
+                            ]
                         }
                     ]
                 }
@@ -1154,26 +1168,12 @@
                     div.appendChild(tags);
                     container.appendChild(div);
                 });
-            } else if (nodeId === 'projects' && node.projects) {
-                // Group projects by category
-                const categories = {};
-                const categoryIcons = { 'Hardware': 'fa-microchip', 'Software': 'fa-laptop-code', 'Others': 'fa-puzzle-piece' };
-                node.projects.forEach(proj => {
-                    const cat = proj.category || 'Others';
-                    if (!categories[cat]) categories[cat] = [];
-                    categories[cat].push(proj);
-                });
-
-                // Ensure order: Hardware, Software, Others
-                const catOrder = ['Hardware', 'Software', 'Others'];
-                catOrder.forEach(catName => {
-                    const items = categories[catName];
-                    if (!items || items.length === 0) return;
-
+            } else if (nodeId === 'projects' && node.categories) {
+                // Render project categories as category nodes
+                node.categories.forEach(cat => {
                     const section = document.createElement('div');
                     section.className = 'proj-category-section';
 
-                    // Category header styled like sub-node-wrapper
                     const headerWrapper = document.createElement('div');
                     headerWrapper.className = 'sub-node-wrapper';
 
@@ -1182,11 +1182,12 @@
 
                     const catNode = document.createElement('div');
                     catNode.className = 'proj-cat-node';
-                    catNode.innerHTML = `<i class="fas ${categoryIcons[catName] || 'fa-puzzle-piece'}"></i> ${catName}`;
+                    catNode.dataset.catId = cat.id;
+                    catNode.innerHTML = `<i class="fas ${cat.icon}"></i> ${cat.name}`;
 
                     const catCount = document.createElement('span');
                     catCount.className = 'cat-count';
-                    catCount.textContent = items.length;
+                    catCount.textContent = cat.projects.length;
                     catNode.appendChild(catCount);
 
                     header.appendChild(catNode);
@@ -1197,7 +1198,7 @@
                     const itemsContainer = document.createElement('div');
                     itemsContainer.className = 'proj-cat-items';
 
-                    items.forEach(proj => {
+                    cat.projects.forEach(proj => {
                         const div = document.createElement('div');
                         div.className = 'project-item';
                         const title = document.createElement('div');
@@ -1323,27 +1324,13 @@
                     if (!nested || nested.classList.contains('hidden-level')) return;
 
                     const subRect = subNode.getBoundingClientRect();
+                    const nestedRect = nested.getBoundingClientRect();
+                    const x1 = subRect.left + subRect.width/2 - treeRect.left;
+                    const y1 = subRect.bottom - treeRect.top;
+                    const x2 = nestedRect.left + nestedRect.width/2 - treeRect.left;
+                    const y2 = nestedRect.top - treeRect.top;
                     const isActive = subNode === activeSubNode;
-
-                    // If this is projects, draw lines to each category node instead of nested container
-                    if (targetId === 'projects') {
-                        const catNodes = nested.querySelectorAll('.proj-cat-node');
-                        catNodes.forEach(catNode => {
-                            const catRect = catNode.getBoundingClientRect();
-                            const x1 = subRect.left + subRect.width/2 - treeRect.left;
-                            const y1 = subRect.bottom - treeRect.top;
-                            const x2 = catRect.left + catRect.width/2 - treeRect.left;
-                            const y2 = catRect.top - treeRect.top;
-                            addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive);
-                        });
-                    } else {
-                        const nestedRect = nested.getBoundingClientRect();
-                        const x1 = subRect.left + subRect.width/2 - treeRect.left;
-                        const y1 = subRect.bottom - treeRect.top;
-                        const x2 = nestedRect.left + nestedRect.width/2 - treeRect.left;
-                        const y2 = nestedRect.top - treeRect.top;
-                        addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive);
-                    }
+                    addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive);
                 });
             }
         }
@@ -1477,7 +1464,6 @@
                 document.querySelectorAll('.toolbar-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 const section = this.dataset.section;
-                // Scroll to relevant section or trigger the matching sub-node
                 if (section === 'home') {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else if (section === 'projects') {
