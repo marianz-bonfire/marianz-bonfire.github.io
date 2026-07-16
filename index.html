@@ -94,12 +94,18 @@
 
         /* --- footer --- */
         .site-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
             text-align: center;
-            padding: 24px 20px 10px;
+            padding: 12px 20px;
             color: #4a5a7c;
             font-size: 0.75rem;
             letter-spacing: 0.5px;
             width: 100%;
+            background: #0b0e18;
+            border-top: 1px solid #1a2035;
+            z-index: 50;
         }
 
         /* --- project category wrappers inside nested --- */
@@ -682,7 +688,6 @@
         .connector-svg path {
             fill: none;
             stroke-linejoin: round;
-            transition: stroke 0.3s, stroke-dasharray 0.3s, filter 0.3s;
         }
         .connector-svg path.inactive-path {
             stroke: #3d4a6b;
@@ -794,6 +799,7 @@
 <footer class="site-footer">
     Copyright &copy; John Doe
 </footer>
+<div style="height:40px"></div>
 
 <script>
     (function() {
@@ -1292,11 +1298,13 @@
             const mainNode = document.querySelector('.main-node');
             const mainRect = mainNode.getBoundingClientRect();
             const subLevel = document.getElementById('subLevelContainer');
-            const wrappers = document.querySelectorAll('.sub-node-wrapper');
+            const wrappers = subLevelContainer.querySelectorAll('.sub-node-wrapper');
 
             if (!subLevel.classList.contains('hidden-level')) {
+                // Main node to sub-nodes
                 wrappers.forEach(w => {
                     const subNode = w.querySelector('.sub-node');
+                    if (!subNode) return;
                     const subRect = subNode.getBoundingClientRect();
                     const x1 = mainRect.left + mainRect.width/2 - treeRect.left;
                     const y1 = mainRect.bottom - treeRect.top;
@@ -1306,20 +1314,36 @@
                     addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive);
                 });
 
+                // Sub-nodes to nested containers
                 wrappers.forEach(w => {
                     const subNode = w.querySelector('.sub-node');
+                    if (!subNode) return;
                     const targetId = subNode.dataset.target;
                     const nested = document.getElementById(`nested-${targetId}`);
                     if (!nested || nested.classList.contains('hidden-level')) return;
 
                     const subRect = subNode.getBoundingClientRect();
-                    const nestedRect = nested.getBoundingClientRect();
-                    const x1 = subRect.left + subRect.width/2 - treeRect.left;
-                    const y1 = subRect.bottom - treeRect.top;
-                    const x2 = nestedRect.left + nestedRect.width/2 - treeRect.left;
-                    const y2 = nestedRect.top - treeRect.top;
                     const isActive = subNode === activeSubNode;
-                    addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive);
+
+                    // If this is projects, draw lines to each category node instead of nested container
+                    if (targetId === 'projects') {
+                        const catNodes = nested.querySelectorAll('.proj-cat-node');
+                        catNodes.forEach(catNode => {
+                            const catRect = catNode.getBoundingClientRect();
+                            const x1 = subRect.left + subRect.width/2 - treeRect.left;
+                            const y1 = subRect.bottom - treeRect.top;
+                            const x2 = catRect.left + catRect.width/2 - treeRect.left;
+                            const y2 = catRect.top - treeRect.top;
+                            addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive);
+                        });
+                    } else {
+                        const nestedRect = nested.getBoundingClientRect();
+                        const x1 = subRect.left + subRect.width/2 - treeRect.left;
+                        const y1 = subRect.bottom - treeRect.top;
+                        const x2 = nestedRect.left + nestedRect.width/2 - treeRect.left;
+                        const y2 = nestedRect.top - treeRect.top;
+                        addRoundedOrthogonalConnector(x1, y1, x2, y2, isActive);
+                    }
                 });
             }
         }
