@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Node · Portfolio</title>
+    <title>Marianz · Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -517,6 +517,14 @@
             color: #6a84b8;
             margin-top: 4px;
         }
+        .edu-item .edu-year {
+            font-size: 0.75rem;
+            color: #5a72b0;
+            margin-top: 6px;
+            padding-top: 8px;
+            border-top: 1px solid #1f2d52;
+            font-weight: 600;
+        }
 
         /* --- skill category items --- */
         .skill-category {
@@ -776,7 +784,7 @@
         <!-- MAIN NODE - Rectangular with circular count badge at bottom center -->
         <div class="main-node-wrapper">
             <div class="main-node" id="mainNodeToggle">
-                <span class="name"><i class="fas fa-user-astronaut"></i>John Doe</span>
+                <span class="name"><i class="fas fa-user-astronaut"></i>Mariano Degracia Jr</span>
                 <span class="badge"><i class="fas fa-sitemap"></i> 5 nodes</span>
                 <span class="collapse-icon" id="mainToggleIcon"><i class="fas fa-chevron-down"></i></span>
                 <div class="main-count-circle">
@@ -797,7 +805,7 @@
 </div>
 
 <footer class="site-footer">
-    Copyright &copy; John Doe
+    Copyright &copy; Mariano Degracia Jr 2024. All rights reserved.
 </footer>
 <div style="height:40px"></div>
 
@@ -805,7 +813,7 @@
     (function() {
         //  JSON DATA 
         const portfolioData = {
-            name: "John Doe",
+            name: "Mariano Degracia Jr",
             nodes: [
                 {
                     id: "basic",
@@ -814,47 +822,82 @@
                     count: 6,
                     details: [
                         { icon: "fa-phone", text: "+63 912 345 6789", badge: "Contact" },
-                        { icon: "fa-envelope", text: "john.doe@email.com", badge: "Email" },
-                        { icon: "fa-globe", text: "github.com/johndoe", badge: "GitHub" },
-                        { icon: "fa-globe", text: "bitbucket.org/johndoe", badge: "Bitbucket" },
-                        { icon: "fa-globe", text: "@johndoe", badge: "Social" },
-                        { icon: "fa-globe", text: "johndoe.dev", badge: "Website" }
+                        { icon: "fa-envelope", text: "marianzjr02@gmail.com", badge: "Email" },
+                        { icon: "fa-globe", text: "github.com/marianz-bonfire", badge: "GitHub" },
+                        { icon: "fa-globe", text: "github.com/tarsier-marianz", badge: "GitHub" },
+                        { icon: "fa-globe", text: "bitbucket.org/marianz-bonfire", badge: "Bitbucket" },
+                        { icon: "fa-globe", text: "tarsier-marianz.blogspot.com", badge: "Website" },
+                        { icon: "fa-globe", text: "https://pub.dev/packages?q=tarsier", badge: "Pub.dev" }
                     ]
                 },
                 {
                     id: "experience",
                     label: "Experience",
                     icon: "fa-briefcase",
-                    count: 3,
+                    count: 4,
                     experiences: [
                         {
-                            title: "SENIOR SOFTWARE ENGINEER",
-                            company: "Tech Innovations Inc.",
-                            date: "January 2022 - Present",
+                            title: "SOFTWARE ENGINEER/ IT ADMINISTRATOR",
+                            company: "BONFIRE TECHNOLOGIES AND SOLUTIONS CORP.",
+                            date: "July 2021 - Present",
                             details: [
-                                "Designed and developed enterprise-grade applications using C# and .NET Core.",
-                                "Led a team of 8 developers in agile development cycles.",
-                                "Implemented microservices architecture improving system scalability by 40%."
+                                "Developed a native Android application (Java) that enabled sales and warehouse personnel to check real-time inventory availability.",
+                                "Designed and developed an on-premises issuance management system for a supermarket using Laravel (PHP).",
+                                "Contributed to the development of an Enterprise Resource Planning (ERP) system using Laravel, PHP, and Vue.js.",
+                                "Mentored fellow developers and on-the-job trainees (OJTs), providing technical guidance, code reviews, and day-to-day development support.",
+                                "Assisted fellow developers with system architecture, troubleshooting, and implementation of complex features.",
+                                "Enhanced and maintained ERP integrations with clients' Point of Sale (POS) systems to improve data synchronization and operational efficiency.",
+                                "Developed SAP and POS system integration solutions, including a data validation application that verified and transformed SAP data before importing it into POS systems.",
+                                "Designed and developed a cross-platform Queue Management System for fast-food and fine-dining establishments using Flutter (Dart) for Android and Windows, with native Android components developed in Kotlin where required.",
+                                "Developed a cross-platform Kitchen Display System (KDS) for Android and Windows using Flutter (Dart), integrating native Kotlin components to optimize kitchen workflow and order processing.",
+                                "Contributed to the development of a cross-platform Point of Sale (POS) system that achieved Bureau of Internal Revenue (BIR) accreditation for compliance with Philippine tax regulations.",
+                                "Managed supermarket network infrastructure, including the installation and configuration of wireless access points (APs), Wi-Fi networks, and related networking equipment.",
+                                "Provided technical support for employees by diagnosing and resolving workstation hardware, software, and network-related issues.",
+                                "Participated in software design, code reviews, testing, deployment, and production support while working closely with cross-functional teams."
                             ]
                         },
                         {
-                            title: "FULL STACK DEVELOPER",
-                            company: "Digital Solutions Corp",
-                            date: "June 2019 - December 2021",
+                            title: "MIS HEAD/ PROGRAMMER/ IT ADMINISTRATOR",
+                            company: "BCS SYSTEMS AND TECHNOLOGIES, INC.",
+                            date: "July 2019 - May 2021",
                             details: [
-                                "Built responsive web applications using React.js and Node.js.",
-                                "Integrated RESTful APIs and third-party services.",
-                                "Optimized database queries improving performance by 30%."
+                                "Managed two software development teams: an in-house development team and a team dedicated to sales-driven software solutions.",
+                                "Led the adoption and implementation of Agile development practices using the Scrum framework to improve project delivery and team collaboration.",
+                                "Designed and developed RESTful Web APIs using C# (.NET) and PHP for internal and client-facing applications.",
+                                "Led the development and implementation of a Point of Sale (POS) system integration for shopping mall operations.",
+                                "Designed, developed, and maintained corporate websites using WordPress, including bcssti.com and vantagesolutions.biz.",
+                                "Maintained, enhanced, and provided ongoing support for existing business applications and production systems.",
+                                "Integrated MYOB POS with Acumatica ERP to streamline business operations and automate data synchronization.",
+                                "Managed the full lifecycle of four corporate websites, including domain management, hosting, deployment, maintenance, and technical support.",
+                                "Designed and deployed virtualized server infrastructure using VMware ESXi, including application servers, storage servers, and Active Directory domain controllers.",
+                                "Collaborated with stakeholders to gather requirements, implement system improvements, and deliver reliable software solutions."
                             ]
                         },
                         {
-                            title: "JUNIOR DEVELOPER",
-                            company: "Startup Hub",
-                            date: "January 2018 - May 2019",
+                            title: "IT ADMINISTRATOR/ PROGRAMMER",
+                            company: "TELCOMTRIX PHILIPPINES, INC.",
+                            date: "October 2012 - May 2019",
                             details: [
-                                "Developed internal tools for business process automation.",
-                                "Maintained and debugged existing codebase.",
-                                "Collaborated with designers to implement UI/UX improvements."
+                                "Provided object-oriented design, programming and implementation support to the asset management system, written in C#.",
+                                "Developed and maintained a system and database application for client base as well as for internal projects.",
+                                "Troubleshooting and repairing system and network problems and diagnosing and solving hardware or software faults.",
+                                "Build web application integrating front-end design, as well as the back-end structures.",
+                                "Monitoring and maintaining network infrastructure (Servers and clients).",
+                                "Implementing security protocols and procedures to prevent potential threats.",
+                                "Designed printed circuit boards (PCBs), including circuit layout, board fabrication (etching), component soldering, assembly, and hardware testing.",
+                                "Developed embedded automation solutions using Arduino microcontrollers and integrated them with C# desktop applications for process automation and device control.",
+                                "Integrated hardware devices with software applications to support automation, monitoring, and operational workflows."
+                            ]
+                        },
+                        {
+                            title: "COMPUTER TECHNICIAN",
+                            company: "TELCOMTRIX PHILIPPINES, INC.",
+                            date: "August 2010 - October 2012",
+                            details: [
+                                "Troubleshooting hardware (including computer assembling and maintenance) and software problems.",
+                                "Installing (software and application to user standards) and configuring the peripherals, components and drivers, etc.",
+                                "Repair and troubleshoot power supply, modem, telephone, and repeater antenna.",
+                                "Testing and validating, upgrading GLOBE modem-router."
                             ]
                         }
                     ]
@@ -866,14 +909,21 @@
                     count: 2,
                     education: [
                         {
-                            school: "University of Technology",
-                            address: "Metro Manila, Philippines",
-                            degree: "M.S. Computer Science"
+                            school: "STI COLLEGE CUBAO",
+                            address: "P.Tuazon Blvd. corner 5th Avenue, Cubao Quezon City",
+                            degree: "Bachelor of Science In Information Technology",
+                            year: "June 2016"
                         },
                         {
-                            school: "State University",
-                            address: "Laguna, Philippines",
-                            degree: "B.S. Computer Engineering"
+                            school: "MFI FOUNDATION, INC",
+                            address: "MFI Building, Ortigas Avenue, Pasig City",
+                            degree: "VOCATIONAL- Practical Electronics",
+                            year: "May 2012"
+                        }, {
+                            school: "BOHOL ISLAND STATE UNIVERSITY",
+                            address: "Cogtong, Candijay 6312 Bohol, Philippines",
+                            degree: "UNDERGRADUATE - Bachelor Of Science In Computer Science",
+                            year: "April 2010"
                         }
                     ]
                 },
@@ -881,7 +931,7 @@
                     id: "skills",
                     label: "Skills",
                     icon: "fa-code",
-                    count: 10,
+                    count: 11,
                     skillCategories: [
                         {
                             name: "Programming Languages",
@@ -889,7 +939,7 @@
                         },
                         {
                             name: "Backend Technologies",
-                            tags: ["ASP.NET Web API", ".NET Framework", "Laravel", "RESTful API", "Swagger/OpenAPI"]
+                            tags: ["ASP.NET Web API", ".NET Framework", "Laravel", "RESTful API Development", "Swagger/OpenAPI", "Node.js", "Firebase", "Supabase"]
                         },
                         {
                             name: "Frontend Technologies",
@@ -897,19 +947,19 @@
                         },
                         {
                             name: "Mobile Development",
-                            tags: ["Flutter", "Native Android", "Java", "Kotlin", "SQLite", "Material Design"]
+                            tags: ["Flutter (Android & Windows)", "Native Android", "Java", "Kotlin", "SQLite", "Material Design"]
                         },
                         {
                             name: "Databases",
-                            tags: ["Microsoft SQL Server", "MySQL", "MariaDB", "SQLite", "Microsoft Access"]
+                            tags: ["Microsoft SQL Server (MSSQL)", "MySQL", "MariaDB", "SQLite", "Microsoft Access"]
                         },
                         {
-                            name: "DevOps & Networking",
-                            tags: ["Git", "GitHub", "TortoiseSVN", "Jenkins", "VMware ESXi", "Windows Server", "Active Directory", "Cloudflare", "Tailscale", "ngrok", "Network Administration", "VPN Configuration", "DNS Management"]
+                            name: "Development Tools & IDEs",
+                            tags: ["Microsoft Visual Studio", "Visual Studio Code", "Android Studio", "Eclipse", "NetBeans", "Qt Designer", "PyCharm", "PhpStorm", "Atmel Studio", "Arduino IDE", "Processing", "Fritzing", "KiCad", "MySQL Workbench", "Postman"]
                         },
                         {
-                            name: "Development Tools",
-                            tags: ["Visual Studio", "VS Code", "Android Studio", "Eclipse", "NetBeans", "PyCharm", "PhpStorm", "Arduino IDE", "MySQL Workbench", "Postman"]
+                            name: "Version Control & DevOps",
+                            tags: ["Git", "GitHub", "TortoiseSVN", "Jenkins"]
                         },
                         {
                             name: "Computer Vision & Libraries",
@@ -917,11 +967,15 @@
                         },
                         {
                             name: "Embedded Systems & Hardware",
-                            tags: ["Arduino", "MSP430 LaunchPad", "AVR Dragon", "PCB Design", "Circuit Schematic", "Hardware Prototyping"]
+                            tags: ["Arduino", "MSP430 LaunchPad", "AVR Dragon", "PCB Design", "Circuit Schematic Design", "PCB Fabrication", "Hardware Prototyping", "Embedded Systems Development"]
                         },
                         {
-                            name: "Methodologies",
-                            tags: ["Agile (Scrum)", "OOP", "Design Patterns", "ERP Development", "POS Systems", "SAP Integration", "SDLC"]
+                            name: "Networking & Infrastructure",
+                            tags: ["VMware ESXi", "Windows Server", "Active Directory", "Network Administration", "Wi-Fi & Access Point Configuration", "Virtualization"]
+                        },
+                        {
+                            name: "Methodologies & Enterprise Systems",
+                            tags: ["Agile (Scrum)", "Object-Oriented Programming (OOP)", "Software Design Patterns", "ERP Development", "POS Systems", "SAP Integration", "System Integration", "Database Design", "SDLC", "Technical Documentation"]
                         }
                     ]
                 },
@@ -929,7 +983,7 @@
                     id: "projects",
                     label: "Projects",
                     icon: "fa-folder-open",
-                    count: 6,
+                    count: 23,
                     categories: [
                         {
                             id: "projects_hardware",
@@ -937,25 +991,39 @@
                             icon: "fa-microchip",
                             projects: [
                                 {
-                                    title: "IoT Smart Home Controller",
-                                    type: "Personal Project",
+                                    title: "Solar Tracker",
+                                    type: "Company Project",
                                     category: "Hardware",
-                                    desc: "Arduino-based home automation system with mobile app control.",
-                                    tech: ["Arduino", "Flutter", "Firebase", "MQTT"]
+                                    desc: "Arduino based - dual axis solar tracker using sensors to find the brightest source of light.",
+                                    tech: ["Arduino", "Sensors", "C/C++"]
                                 },
                                 {
-                                    title: "Robotics Arm Controller",
-                                    type: "Personal Project",
+                                    title: "PCB-Etching Agitator",
+                                    type: "Company Project",
                                     category: "Hardware",
-                                    desc: "Custom robotic arm with gesture control and computer vision.",
-                                    tech: ["Python", "OpenCV", "Arduino", "Servo"]
+                                    desc: "Ferric Chloride agitator for circuit board etching process using used DVD-Rom stepper motor and its core controller ATmega8 of ATMEL microcontrollers.",
+                                    tech: ["ATmega8", "Stepper Motor", "PCB Design"]
                                 },
                                 {
-                                    title: "Weather Station",
-                                    type: "Personal Project",
+                                    title: "GSM-Based Alarm System",
+                                    type: "Company Project",
                                     category: "Hardware",
-                                    desc: "Portable weather monitoring system with data logging.",
-                                    tech: ["ESP8266", "Python", "Sensors", "WiFi"]
+                                    desc: "GSM security alarm system with Arduino has the capability of sending SMS alert once any PIR motion sensor detects the movement.",
+                                    tech: ["Arduino", "GSM", "PIR Sensor", "SMS"]
+                                },
+                                {
+                                    title: "Parallel Port MSP430-JTAG",
+                                    type: "Company Project",
+                                    category: "Hardware",
+                                    desc: "Used to program and debug MSP430 FET tools and test boards through the JTAG interface to the target board with programmable MSP430-microcontrollers. Connect a MSP430-Flash-device to a Parallel port on a PC.",
+                                    tech: ["MSP430", "JTAG", "Microcontrollers"]
+                                },
+                                {
+                                    title: "MSP-FET430UIF Programmer-Extender",
+                                    type: "Company Project",
+                                    category: "Hardware",
+                                    desc: "A board designed as extender for Texas instrument programmer (MSP-FET430UIF). Designed only for a specific ELTEK Flatpack2 Rectifier sub board to make programming faster.",
+                                    tech: ["MSP430", "Programmer", "PCB Design"]
                                 }
                             ]
                         },
@@ -965,25 +1033,137 @@
                             icon: "fa-laptop-code",
                             projects: [
                                 {
-                                    title: "Asset Management System",
+                                    title: "TTLock Passcode Importer",
                                     type: "Company Project",
                                     category: "Software",
-                                    desc: "Enterprise asset tracking system with RFID integration and real-time monitoring.",
-                                    tech: ["C#", "ASP.NET", "MSSQL", "RFID"]
+                                    desc: "Android application to import multiple passcodes into door lock and also in TTLock cloud server. Created to extend default TTLock Smart Lock functionality. Written in Java language, used TTLock SDK to connect Web API to control door lock.",
+                                    tech: ["Java", "Android", "TTLock SDK", "REST API"]
                                 },
                                 {
-                                    title: "E-Commerce Platform",
+                                    title: "Huawei Win Tools - Mac/Serial Changer",
                                     type: "Company Project",
                                     category: "Software",
-                                    desc: "Full-featured e-commerce platform with payment gateway integration.",
-                                    tech: ["React", "Node.js", "MongoDB", "Stripe"]
+                                    desc: "A tool written in VB6, used in repairing Huawei Wimax (BM622i and BM622m) modems. Made to test the modem was successfully repaired by changing serial and MAC of the modem before restoring the default internal configuration.",
+                                    tech: ["VB6", "Huawei", "Modem"]
                                 },
                                 {
-                                    title: "Inventory Management POS",
+                                    title: "Intranet Based Asset Management System",
                                     type: "Company Project",
                                     category: "Software",
-                                    desc: "Point of Sale system with inventory tracking and reporting.",
-                                    tech: ["Java", "SQLite", "JavaFX"]
+                                    desc: "System for tracking GLOBE equipment from pullout-to-delivery that undergo refurbishing, repair, testing and validation. A desktop application written in C# language with DevExpress components for UI design using MySQL and SQLite databases.",
+                                    tech: ["C#", "MySQL", "SQLite", "DevExpress", "Rebex.NET", "IonicZip"]
+                                },
+                                {
+                                    title: "GLOBE WFM Site Crawler",
+                                    type: "Company Project",
+                                    category: "Software",
+                                    desc: "A web crawler that collects data from GLOBE Telecom workforce site containing daily installation assignment. Store into database and has a capability to export data with pre-defined format into excel file type.",
+                                    tech: ["Python", "SQLite", "xlsxwriter", "lxml", "html.parser"]
+                                },
+                                {
+                                    title: "MPU-9255 library for Arduino",
+                                    type: "Company Project",
+                                    category: "Software",
+                                    desc: "Arduino library written in C/C++ for the Invensense MPU-9255 inertial measurement unit (IMU), 9-axis Motion Tracking device. Enables the sensor's digital motion processing (DMP) features with I²C protocol support.",
+                                    tech: ["C/C++", "Arduino", "IMU", "I2C"]
+                                },
+                                {
+                                    title: "BMP-180 library for Arduino",
+                                    type: "Company Project",
+                                    category: "Software",
+                                    desc: "A simple Arduino library written in C/C++ for the BMP180 Barometric Pressure/Temperature sensor. Helps to communicate sensors in reading data using I²C (Inter-Integrated Circuit) protocols.",
+                                    tech: ["C/C++", "Arduino", "BMP180", "I2C"]
+                                },
+                                {
+                                    title: "App-Updates Remote Uploader & Setup Creator",
+                                    type: "Company Project",
+                                    category: "Software",
+                                    desc: "A ready to use and configurable uploader which pack the latest build version of an application before uploading into remote server. Also capability to create a setup file that compiles all build files and its dependencies.",
+                                    tech: ["C#", ".NET", "Renci.SshNet", "SFTP", "IonicZip"]
+                                },
+                                {
+                                    title: "SCR Encoder",
+                                    type: "Company Project",
+                                    category: "Software",
+                                    desc: "Log all service completion reports of all technician installation and generate report with pre-formatted file to GLOBE Telecom. With map viewer and route direction features intended for technicians and dispatcher.",
+                                    tech: ["PHP", "HTML5", "CSS", "JavaScript", "jQuery", "Bootstrap"]
+                                },
+                                {
+                                    title: "Inst Inventory",
+                                    type: "Company Project",
+                                    category: "Software",
+                                    desc: "Simple inventory management software which keep track GLOBE Telecom equipment (modems, antenna, telephone, SIM, etc.). Allowing fast access to real time asset and inventory information with MVC software design pattern.",
+                                    tech: ["PHP", "HTML5", "CSS", "jQuery EasyUI", "MVC", "Bootstrap"]
+                                }
+                            ]
+                        },
+                        {
+                            id: "projects_personal",
+                            name: "Personal",
+                            icon: "fa-puzzle-piece",
+                            projects: [
+                                {
+                                    title: "Home Automation System",
+                                    type: "Personal Project",
+                                    category: "Personal",
+                                    desc: "Automate home electrical appliances using a simple Android app, which you can use to control electrical appliances with control interaction and voice command. Commands are sent via Bluetooth (HC05) to Arduino.",
+                                    tech: ["Java", "Android", "Arduino", "C/C++", "Bluetooth"]
+                                },
+                                {
+                                    title: "PyGPSLogger",
+                                    type: "Personal Project",
+                                    category: "Personal",
+                                    desc: "A simple GPS-Receiver Data Logger created using Python language, with integration of Google Static Map API. Raw data parsing from GPS Receiver uses standard data formatting NMEA.",
+                                    tech: ["Python", "GPS", "Google Maps API", "NMEA"]
+                                },
+                                {
+                                    title: "Image2LCDConverter",
+                                    type: "Personal Project",
+                                    category: "Personal",
+                                    desc: "A simple image to LCD converter compatible to Nokia 3310/5110 LCD. Created in Python language with PyQt5 and PIL libraries.",
+                                    tech: ["Python", "PyQt5", "PIL", "LCD"]
+                                },
+                                {
+                                    title: "PyAudio2Talkie",
+                                    type: "Personal Project",
+                                    category: "Personal",
+                                    desc: "GUI based python program that convert audio file (WAV) to Talkie (speech synthesis for Arduino) compatible data.",
+                                    tech: ["Python", "Audio Processing", "Arduino", "GUI"]
+                                },
+                                {
+                                    title: "ATmega8-POV",
+                                    type: "Personal Project",
+                                    category: "Personal",
+                                    desc: "A simple persistence-of-vision (POV) display with ATmega8 microcontroller.",
+                                    tech: ["ATmega8", "C/C++", "LED", "POV"]
+                                },
+                                {
+                                    title: "WinRegsvr32.NET",
+                                    type: "Personal Project",
+                                    category: "Personal",
+                                    desc: "A simple program created in C# .NET which helps to register/unregister Dynamic Link Library (.dll) or Object Linking and Embedding (OLE) File (.ocx).",
+                                    tech: ["C#", ".NET", "Windows Registry"]
+                                },
+                                {
+                                    title: "Solar Tracker Simulator",
+                                    type: "Personal Project",
+                                    category: "Personal",
+                                    desc: "Simple simulator in 3D viewing graphics created using Processing3 in Java language for Dual Axis Solar Tracker.",
+                                    tech: ["Java", "Processing3", "3D Graphics", "Simulation"]
+                                },
+                                {
+                                    title: "Py-People Counter",
+                                    type: "Personal Project",
+                                    category: "Personal",
+                                    desc: "A small program that counts incoming and outgoing people using Python and OpenCV.",
+                                    tech: ["Python", "OpenCV", "Computer Vision"]
+                                },
+                                {
+                                    title: "Tarsier G-Code",
+                                    type: "Personal Project",
+                                    category: "Personal",
+                                    desc: "A gcode loader and simulator for CNC machine. Interprets commands from parsed data of the loaded gcode file content and send it to CNC machine.",
+                                    tech: ["C#", ".NET", "G-Code", "CNC"]
                                 }
                             ]
                         }
@@ -1147,6 +1327,12 @@
                     degDiv.className = 'edu-degree';
                     degDiv.textContent = edu.degree;
                     div.appendChild(degDiv);
+                    if (edu.year) {
+                        const yearDiv = document.createElement('div');
+                        yearDiv.className = 'edu-year';
+                        yearDiv.textContent = edu.year;
+                        div.appendChild(yearDiv);
+                    }
                     container.appendChild(div);
                 });
             } else if (nodeId === 'skills' && node.skillCategories) {
