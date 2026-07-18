@@ -226,9 +226,13 @@
             font-size: 1.6rem;
             letter-spacing: 0.5px;
         }
-        .main-node .name i {
-            color: #8099e6;
+        .main-node .name .avatar-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
             margin-right: 10px;
+            object-fit: cover;
+            border: 2px solid #8099e6;
         }
         .main-node .badge {
             background: #2f3b5a;
@@ -475,6 +479,12 @@
             gap: 10px;
             color: #c2d2ff;
             font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .info-item:hover {
+            border-color: #5a72b0;
+            background: #1a2340;
+            transform: translateY(-2px);
         }
         .info-item i {
             color: #6a84c8;
@@ -558,6 +568,13 @@
             padding: 2px 12px;
             font-size: 0.7rem;
             color: #b0c4ee;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .skill-category .skill-tag i {
+            font-size: 0.65rem;
+            color: #7e93d0;
         }
 
         /* --- project items --- */
@@ -571,6 +588,12 @@
             max-width: 300px;
             flex: 1;
             color: #c2d2ff;
+            transition: all 0.2s;
+        }
+        .project-item:hover {
+            border-color: #5a72b0;
+            background: #1a2340;
+            transform: translateY(-2px);
         }
         .project-item .proj-title {
             font-weight: 700;
@@ -752,6 +775,80 @@
             .project-item { min-width: 160px; }
             .floating-toolbar { left: 8px; padding: 6px 4px; }
             .toolbar-btn { width: 32px; height: 32px; font-size: 0.85rem; }
+            .license-container { margin-top: 20px; }
+        }
+
+        /* --- license container --- */
+        .license-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        .license-container.hidden-level {
+            display: none !important;
+        }
+        .license-content {
+            background: rgba(15, 20, 36, 0.5);
+            border: 2px dashed #2a3655;
+            border-radius: 20px;
+            padding: 24px 28px;
+            width: 100%;
+            max-width: 900px;
+            color: #c2d2ff;
+        }
+        .license-header {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #e0ecff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #2a3655;
+        }
+        .license-header i {
+            color: #7e93d0;
+        }
+        .license-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 12px;
+        }
+        .license-item {
+            background: rgba(11, 14, 24, 0.6);
+            border-left: 3px solid #7e93d0;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+        .license-item .license-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #b0c4ee;
+            margin-bottom: 6px;
+        }
+        .license-item .license-text {
+            font-size: 0.8rem;
+            color: #8aa0d8;
+            line-height: 1.5;
+        }
+        .license-item .license-text a {
+            color: #7e93d0;
+            text-decoration: none;
+            border-bottom: 1px solid #5a72b0;
+            transition: all 0.2s;
+        }
+        .license-item .license-text a:hover {
+            color: #a0b8ff;
+            border-bottom-color: #7e93d0;
+        }
+        .license-item .license-text div {
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -784,11 +881,36 @@
         <!-- MAIN NODE - Rectangular with circular count badge at bottom center -->
         <div class="main-node-wrapper">
             <div class="main-node" id="mainNodeToggle">
-                <span class="name"><i class="fas fa-user-astronaut"></i>Mariano Degracia Jr</span>
+                <span class="name"><img class="avatar-img" src="https://avatars.githubusercontent.com/u/87011117?v=4" alt="Avatar">Mariano Degracia Jr</span>
                 <span class="badge"><i class="fas fa-sitemap"></i> 5 nodes</span>
                 <span class="collapse-icon" id="mainToggleIcon"><i class="fas fa-chevron-down"></i></span>
                 <div class="main-count-circle">
                     <span>5</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- LICENSE CONTAINER -->
+        <div id="licenseContainer" class="license-container hidden-level">
+            <div class="license-content">
+                <div class="license-header">
+                    <i class="fas fa-file-contract"></i> Licenses & Attribution
+                </div>
+                <div class="license-items">
+                    <div class="license-item">
+                        <div class="license-title">Portfolio Content</div>
+                        <div class="license-text">Copyright &copy; Mariano Degracia Jr 2024. All rights reserved.</div>
+                    </div>
+                    <div class="license-item">
+                        <div class="license-title">Template Attribution</div>
+                        <div class="license-text">This portfolio uses a custom node-based visualization template designed for professional portfolio presentation. Template is available for use and modification for both personal and professional purposes.</div>
+                    </div>
+                    <div class="license-item">
+                        <div class="license-title">Third-Party Libraries</div>
+                        <div class="license-text">
+                            <div>Font Awesome 6.0 - <a href="https://fontawesome.com" target="_blank">https://fontawesome.com</a> (Licensed under CC BY 4.0)</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -821,13 +943,13 @@
                     icon: "fa-user",
                     count: 6,
                     details: [
-                        { icon: "fa-phone", text: "+63 912 345 6789", badge: "Contact" },
-                        { icon: "fa-envelope", text: "marianzjr02@gmail.com", badge: "Email" },
-                        { icon: "fa-globe", text: "github.com/marianz-bonfire", badge: "GitHub" },
-                        { icon: "fa-globe", text: "github.com/tarsier-marianz", badge: "GitHub" },
-                        { icon: "fa-globe", text: "bitbucket.org/marianz-bonfire", badge: "Bitbucket" },
-                        { icon: "fa-globe", text: "tarsier-marianz.blogspot.com", badge: "Website" },
-                        { icon: "fa-globe", text: "https://pub.dev/packages?q=tarsier", badge: "Pub.dev" }
+                        { icon: "fa-phone", text: "+63 912 345 6789", badge: "Contact", link: "tel:+639123456789" },
+                        { icon: "fa-envelope", text: "marianzjr02@gmail.com", badge: "Email", link: "mailto:marianzjr02@gmail.com" },
+                        { icon: "fab fa-github", text: "github.com/marianz-bonfire", badge: "GitHub", link: "https://github.com/marianz-bonfire" },
+                        { icon: "fab fa-github", text: "github.com/tarsier-marianz", badge: "GitHub", link: "https://github.com/tarsier-marianz" },
+                        { icon: "fab fa-bitbucket", text: "bitbucket.org/marianz-bonfire", badge: "Bitbucket", link: "https://bitbucket.org/marianz-bonfire" },
+                        { icon: "fab fa-blogger", text: "tarsier-marianz.blogspot.com", badge: "Website", link: "https://tarsier-marianz.blogspot.com" },
+                        { icon: "fa-cube", text: "pub.dev/packages?q=tarsier", badge: "Pub.dev", link: "https://pub.dev/packages?q=tarsier" }
                     ]
                 },
                 {
@@ -935,47 +1057,47 @@
                     skillCategories: [
                         {
                             name: "Programming Languages",
-                            tags: ["C#", "Visual Basic .NET", "Java", "Kotlin", "PHP", "JavaScript (ES6+)", "TypeScript", "Python", "C++", "Dart", "SQL", "HTML5", "CSS3"]
+                            tags: [["C#", "fa-hashtag"], ["Visual Basic .NET", "fa-code"], ["Java", "fa-leaf"], ["Kotlin", "fa-code"], ["PHP", "fa-code"], ["JavaScript (ES6+)", "fa-js"], ["TypeScript", "fa-code"], ["Python", "fa-code"], ["C++", "fa-code"], ["Dart", "fa-code"], ["SQL", "fa-database"], ["HTML5", "fa-code"], ["CSS3", "fa-code"]]
                         },
                         {
                             name: "Backend Technologies",
-                            tags: ["ASP.NET Web API", ".NET Framework", "Laravel", "RESTful API Development", "Swagger/OpenAPI", "Node.js", "Firebase", "Supabase"]
+                            tags: [["ASP.NET Web API", "fa-code"], [".NET Framework", "fa-code"], ["Laravel", "fa-code"], ["RESTful API Development", "fa-network-wired"], ["Swagger/OpenAPI", "fa-file-code"], ["Node.js", "fa-server"], ["Firebase", "fa-database"], ["Supabase", "fa-database"]]
                         },
                         {
                             name: "Frontend Technologies",
-                            tags: ["Vue.js", "React.js", "Pinia", "Bootstrap", "Tailwind CSS", "jQuery", "AJAX"]
+                            tags: [["Vue.js", "fa-code"], ["React.js", "fa-code"], ["Pinia", "fa-box"], ["Bootstrap", "fa-code"], ["Tailwind CSS", "fa-code"], ["jQuery", "fa-code"], ["AJAX", "fa-arrows-alt"]]
                         },
                         {
                             name: "Mobile Development",
-                            tags: ["Flutter (Android & Windows)", "Native Android", "Java", "Kotlin", "SQLite", "Material Design"]
+                            tags: [["Flutter (Android & Windows)", "fa-mobile"], ["Native Android", "fa-android"], ["Java", "fa-leaf"], ["Kotlin", "fa-code"], ["SQLite", "fa-database"], ["Material Design", "fa-palette"]]
                         },
                         {
                             name: "Databases",
-                            tags: ["Microsoft SQL Server (MSSQL)", "MySQL", "MariaDB", "SQLite", "Microsoft Access"]
+                            tags: [["Microsoft SQL Server (MSSQL)", "fa-database"], ["MySQL", "fa-database"], ["MariaDB", "fa-database"], ["SQLite", "fa-database"], ["Microsoft Access", "fa-database"]]
                         },
                         {
                             name: "Development Tools & IDEs",
-                            tags: ["Microsoft Visual Studio", "Visual Studio Code", "Android Studio", "Eclipse", "NetBeans", "Qt Designer", "PyCharm", "PhpStorm", "Atmel Studio", "Arduino IDE", "Processing", "Fritzing", "KiCad", "MySQL Workbench", "Postman"]
+                            tags: [["Microsoft Visual Studio", "fa-window-maximize"], ["Visual Studio Code", "fa-code"], ["Android Studio", "fa-android"], ["Eclipse", "fa-gear"], ["NetBeans", "fa-gear"], ["Qt Designer", "fa-brush"], ["PyCharm", "fa-code"], ["PhpStorm", "fa-code"], ["Atmel Studio", "fa-microchip"], ["Arduino IDE", "fa-microchip"], ["Processing", "fa-code"], ["Fritzing", "fa-microchip"], ["KiCad", "fa-microchip"], ["MySQL Workbench", "fa-database"], ["Postman", "fa-globe"]]
                         },
                         {
                             name: "Version Control & DevOps",
-                            tags: ["Git", "GitHub", "TortoiseSVN", "Jenkins"]
+                            tags: [["Git", "fa-code-branch"], ["GitHub", "fa-github"], ["TortoiseSVN", "fa-code-branch"], ["Jenkins", "fa-server"]]
                         },
                         {
                             name: "Computer Vision & Libraries",
-                            tags: ["OpenCV", "DevExpress", "Telerik UI", "DevComponents"]
+                            tags: [["OpenCV", "fa-image"], ["DevExpress", "fa-box"], ["Telerik UI", "fa-box"], ["DevComponents", "fa-box"]]
                         },
                         {
                             name: "Embedded Systems & Hardware",
-                            tags: ["Arduino", "MSP430 LaunchPad", "AVR Dragon", "PCB Design", "Circuit Schematic Design", "PCB Fabrication", "Hardware Prototyping", "Embedded Systems Development"]
+                            tags: [["Arduino", "fa-microchip"], ["MSP430 LaunchPad", "fa-microchip"], ["AVR Dragon", "fa-microchip"], ["PCB Design", "fa-microchip"], ["Circuit Schematic Design", "fa-microchip"], ["PCB Fabrication", "fa-microchip"], ["Hardware Prototyping", "fa-hammer"], ["Embedded Systems Development", "fa-microchip"]]
                         },
                         {
                             name: "Networking & Infrastructure",
-                            tags: ["VMware ESXi", "Windows Server", "Active Directory", "Network Administration", "Wi-Fi & Access Point Configuration", "Virtualization"]
+                            tags: [["VMware ESXi", "fa-server"], ["Windows Server", "fa-server"], ["Active Directory", "fa-network-wired"], ["Network Administration", "fa-network-wired"], ["Wi-Fi & Access Point Configuration", "fa-wifi"], ["Virtualization", "fa-cube"]]
                         },
                         {
                             name: "Methodologies & Enterprise Systems",
-                            tags: ["Agile (Scrum)", "Object-Oriented Programming (OOP)", "Software Design Patterns", "ERP Development", "POS Systems", "SAP Integration", "System Integration", "Database Design", "SDLC", "Technical Documentation"]
+                            tags: [["Agile (Scrum)", "fa-people-group"], ["Object-Oriented Programming (OOP)", "fa-cube"], ["Software Design Patterns", "fa-puzzle-piece"], ["ERP Development", "fa-briefcase"], ["POS Systems", "fa-credit-card"], ["SAP Integration", "fa-code"], ["System Integration", "fa-puzzle-piece"], ["Database Design", "fa-database"], ["SDLC", "fa-spinner"], ["Technical Documentation", "fa-file-alt"]]
                         }
                     ]
                 },
@@ -995,35 +1117,40 @@
                                     type: "Company Project",
                                     category: "Hardware",
                                     desc: "Arduino based - dual axis solar tracker using sensors to find the brightest source of light.",
-                                    tech: ["Arduino", "Sensors", "C/C++"]
+                                    tech: ["Arduino", "Sensors", "C/C++"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/dual-axis-solar-tracker-with-arduino.html"
                                 },
                                 {
                                     title: "PCB-Etching Agitator",
                                     type: "Company Project",
                                     category: "Hardware",
                                     desc: "Ferric Chloride agitator for circuit board etching process using used DVD-Rom stepper motor and its core controller ATmega8 of ATMEL microcontrollers.",
-                                    tech: ["ATmega8", "Stepper Motor", "PCB Design"]
+                                    tech: ["ATmega8", "Stepper Motor", "PCB Design"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/diy-pcb-etching-agitator-ferric.html"
                                 },
                                 {
                                     title: "GSM-Based Alarm System",
                                     type: "Company Project",
                                     category: "Hardware",
                                     desc: "GSM security alarm system with Arduino has the capability of sending SMS alert once any PIR motion sensor detects the movement.",
-                                    tech: ["Arduino", "GSM", "PIR Sensor", "SMS"]
+                                    tech: ["Arduino", "GSM", "PIR Sensor", "SMS"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/12/gsm-based-alarm-system.html"
                                 },
                                 {
                                     title: "Parallel Port MSP430-JTAG",
                                     type: "Company Project",
                                     category: "Hardware",
                                     desc: "Used to program and debug MSP430 FET tools and test boards through the JTAG interface to the target board with programmable MSP430-microcontrollers. Connect a MSP430-Flash-device to a Parallel port on a PC.",
-                                    tech: ["MSP430", "JTAG", "Microcontrollers"]
+                                    tech: ["MSP430", "JTAG", "Microcontrollers"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/programming-and-debugging-msp430.html"
                                 },
                                 {
                                     title: "MSP-FET430UIF Programmer-Extender",
                                     type: "Company Project",
                                     category: "Hardware",
                                     desc: "A board designed as extender for Texas instrument programmer (MSP-FET430UIF). Designed only for a specific ELTEK Flatpack2 Rectifier sub board to make programming faster.",
-                                    tech: ["MSP430", "Programmer", "PCB Design"]
+                                    tech: ["MSP430", "Programmer", "PCB Design"],
+                                    link: "https://tarsier-marianz.blogspot.com/2018/06/msp-fet430uif-programmer-extender.html"
                                 }
                             ]
                         },
@@ -1044,56 +1171,64 @@
                                     type: "Company Project",
                                     category: "Software",
                                     desc: "A tool written in VB6, used in repairing Huawei Wimax (BM622i and BM622m) modems. Made to test the modem was successfully repaired by changing serial and MAC of the modem before restoring the default internal configuration.",
-                                    tech: ["VB6", "Huawei", "Modem"]
+                                    tech: ["VB6", "Huawei", "Modem"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/12/huawei-wimax-tools-macserial-changer.html"
                                 },
                                 {
                                     title: "Intranet Based Asset Management System",
                                     type: "Company Project",
                                     category: "Software",
                                     desc: "System for tracking GLOBE equipment from pullout-to-delivery that undergo refurbishing, repair, testing and validation. A desktop application written in C# language with DevExpress components for UI design using MySQL and SQLite databases.",
-                                    tech: ["C#", "MySQL", "SQLite", "DevExpress", "Rebex.NET", "IonicZip"]
+                                    tech: ["C#", "MySQL", "SQLite", "DevExpress", "Rebex.NET", "IonicZip"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/12/modem-pullout-manager-intranet-based.html"
                                 },
                                 {
                                     title: "GLOBE WFM Site Crawler",
                                     type: "Company Project",
                                     category: "Software",
                                     desc: "A web crawler that collects data from GLOBE Telecom workforce site containing daily installation assignment. Store into database and has a capability to export data with pre-defined format into excel file type.",
-                                    tech: ["Python", "SQLite", "xlsxwriter", "lxml", "html.parser"]
+                                    tech: ["Python", "SQLite", "xlsxwriter", "lxml", "html.parser"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/12/globe-wfm-site-crawler.html"
                                 },
                                 {
                                     title: "MPU-9255 library for Arduino",
                                     type: "Company Project",
                                     category: "Software",
                                     desc: "Arduino library written in C/C++ for the Invensense MPU-9255 inertial measurement unit (IMU), 9-axis Motion Tracking device. Enables the sensor's digital motion processing (DMP) features with I²C protocol support.",
-                                    tech: ["C/C++", "Arduino", "IMU", "I2C"]
+                                    tech: ["C/C++", "Arduino", "IMU", "I2C"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/building-robust-arduino-library-for-mpu.html",
                                 },
                                 {
                                     title: "BMP-180 library for Arduino",
                                     type: "Company Project",
                                     category: "Software",
                                     desc: "A simple Arduino library written in C/C++ for the BMP180 Barometric Pressure/Temperature sensor. Helps to communicate sensors in reading data using I²C (Inter-Integrated Circuit) protocols.",
-                                    tech: ["C/C++", "Arduino", "BMP180", "I2C"]
+                                    tech: ["C/C++", "Arduino", "BMP180", "I2C"],
+                                    link: "https://tarsier-marianz.blogspot.com/2018/03/bmp180-library-for-arduino.html"
                                 },
                                 {
                                     title: "App-Updates Remote Uploader & Setup Creator",
                                     type: "Company Project",
                                     category: "Software",
                                     desc: "A ready to use and configurable uploader which pack the latest build version of an application before uploading into remote server. Also capability to create a setup file that compiles all build files and its dependencies.",
-                                    tech: ["C#", ".NET", "Renci.SshNet", "SFTP", "IonicZip"]
+                                    tech: ["C#", ".NET", "Renci.SshNet", "SFTP", "IonicZip"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/12/app-updates-remote-uploader-setup.html",
                                 },
                                 {
                                     title: "SCR Encoder",
                                     type: "Company Project",
                                     category: "Software",
                                     desc: "Log all service completion reports of all technician installation and generate report with pre-formatted file to GLOBE Telecom. With map viewer and route direction features intended for technicians and dispatcher.",
-                                    tech: ["PHP", "HTML5", "CSS", "JavaScript", "jQuery", "Bootstrap"]
+                                    tech: ["PHP", "HTML5", "CSS", "JavaScript", "jQuery", "Bootstrap"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/12/scr-encoder.html"
                                 },
                                 {
                                     title: "Inst Inventory",
                                     type: "Company Project",
                                     category: "Software",
                                     desc: "Simple inventory management software which keep track GLOBE Telecom equipment (modems, antenna, telephone, SIM, etc.). Allowing fast access to real time asset and inventory information with MVC software design pattern.",
-                                    tech: ["PHP", "HTML5", "CSS", "jQuery EasyUI", "MVC", "Bootstrap"]
+                                    tech: ["PHP", "HTML5", "CSS", "jQuery EasyUI", "MVC", "Bootstrap"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/12/inst-inventory.html"
                                 }
                             ]
                         },
@@ -1107,49 +1242,56 @@
                                     type: "Personal Project",
                                     category: "Personal",
                                     desc: "Automate home electrical appliances using a simple Android app, which you can use to control electrical appliances with control interaction and voice command. Commands are sent via Bluetooth (HC05) to Arduino.",
-                                    tech: ["Java", "Android", "Arduino", "C/C++", "Bluetooth"]
+                                    tech: ["Java", "Android", "Arduino", "C/C++", "Bluetooth"],
+                                    link: "https://tarsier-marianz.blogspot.com/2020/05/tarsier-home-automation-app.html"
                                 },
                                 {
                                     title: "PyGPSLogger",
                                     type: "Personal Project",
                                     category: "Personal",
                                     desc: "A simple GPS-Receiver Data Logger created using Python language, with integration of Google Static Map API. Raw data parsing from GPS Receiver uses standard data formatting NMEA.",
-                                    tech: ["Python", "GPS", "Google Maps API", "NMEA"]
+                                    tech: ["Python", "GPS", "Google Maps API", "NMEA"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/pygpslogger.html"
                                 },
                                 {
                                     title: "Image2LCDConverter",
                                     type: "Personal Project",
                                     category: "Personal",
                                     desc: "A simple image to LCD converter compatible to Nokia 3310/5110 LCD. Created in Python language with PyQt5 and PIL libraries.",
-                                    tech: ["Python", "PyQt5", "PIL", "LCD"]
+                                    tech: ["Python", "PyQt5", "PIL", "LCD"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/image2lcd-converter-for-nokia-33105110.html"
                                 },
                                 {
                                     title: "PyAudio2Talkie",
                                     type: "Personal Project",
                                     category: "Personal",
                                     desc: "GUI based python program that convert audio file (WAV) to Talkie (speech synthesis for Arduino) compatible data.",
-                                    tech: ["Python", "Audio Processing", "Arduino", "GUI"]
+                                    tech: ["Python", "Audio Processing", "Arduino", "GUI"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/pyaudio2talkie.html"
                                 },
                                 {
                                     title: "ATmega8-POV",
                                     type: "Personal Project",
                                     category: "Personal",
                                     desc: "A simple persistence-of-vision (POV) display with ATmega8 microcontroller.",
-                                    tech: ["ATmega8", "C/C++", "LED", "POV"]
+                                    tech: ["ATmega8", "C/C++", "LED", "POV"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/atmega8-pov-building-simple-persistence.html"
                                 },
                                 {
                                     title: "WinRegsvr32.NET",
                                     type: "Personal Project",
                                     category: "Personal",
                                     desc: "A simple program created in C# .NET which helps to register/unregister Dynamic Link Library (.dll) or Object Linking and Embedding (OLE) File (.ocx).",
-                                    tech: ["C#", ".NET", "Windows Registry"]
+                                    tech: ["C#", ".NET", "Windows Registry"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/building-winregsvr32net-c-tool-for.html"
                                 },
                                 {
                                     title: "Solar Tracker Simulator",
                                     type: "Personal Project",
                                     category: "Personal",
                                     desc: "Simple simulator in 3D viewing graphics created using Processing3 in Java language for Dual Axis Solar Tracker.",
-                                    tech: ["Java", "Processing3", "3D Graphics", "Simulation"]
+                                    tech: ["Java", "Processing3", "3D Graphics", "Simulation"],
+                                    link: "https://tarsier-marianz.blogspot.com/2024/11/solar-tracker-simulator.html"
                                 },
                                 {
                                     title: "Py-People Counter",
@@ -1163,7 +1305,8 @@
                                     type: "Personal Project",
                                     category: "Personal",
                                     desc: "A gcode loader and simulator for CNC machine. Interprets commands from parsed data of the loaded gcode file content and send it to CNC machine.",
-                                    tech: ["C#", ".NET", "G-Code", "CNC"]
+                                    tech: ["C#", ".NET", "G-Code", "CNC"],
+                                    link: "https://tarsier-marianz.blogspot.com/2018/03/tarsier-g-code.html"
                                 }
                             ]
                         }
@@ -1248,20 +1391,28 @@
 
             if (nodeId === 'basic' && node.details) {
                 node.details.forEach(detail => {
-                    const div = document.createElement('div');
-                    div.className = 'info-item';
+                    const isClickable = detail.link && (detail.link.startsWith('http') || detail.link.startsWith('mailto:') || detail.link.startsWith('tel:'));
+                    const element = isClickable ? document.createElement('a') : document.createElement('div');
+                    element.className = 'info-item';
+                    if (isClickable) {
+                        element.href = detail.link;
+                        element.target = '_blank';
+                        element.style.cursor = 'pointer';
+                        element.style.textDecoration = 'none';
+                        element.style.color = '#c2d2ff';
+                    }
                     const icon = document.createElement('i');
                     icon.className = detail.icon.startsWith('fab') ? detail.icon : `fas ${detail.icon}`;
-                    div.appendChild(icon);
+                    element.appendChild(icon);
                     const textNode = document.createTextNode(` ${detail.text}`);
-                    div.appendChild(textNode);
+                    element.appendChild(textNode);
                     if (detail.badge) {
                         const badge = document.createElement('span');
                         badge.className = 'info-badge';
                         badge.textContent = detail.badge;
-                        div.appendChild(badge);
+                        element.appendChild(badge);
                     }
-                    container.appendChild(div);
+                    container.appendChild(element);
                 });
             } else if (nodeId === 'experience' && node.experiences) {
                 node.experiences.forEach((exp, idx) => {
@@ -1346,9 +1497,19 @@
                     const tags = document.createElement('div');
                     tags.className = 'skill-tags';
                     cat.tags.forEach(tag => {
+                        const tagItem = Array.isArray(tag) ? tag : [tag, null];
+                        const tagText = tagItem[0];
+                        const tagIcon = tagItem[1];
                         const span = document.createElement('span');
                         span.className = 'skill-tag';
-                        span.textContent = tag;
+                        if (tagIcon) {
+                            const icon = document.createElement('i');
+                            icon.className = `fas ${tagIcon}`;
+                            icon.style.marginRight = '4px';
+                            span.appendChild(icon);
+                        }
+                        const textNode = document.createTextNode(tagText);
+                        span.appendChild(textNode);
                         tags.appendChild(span);
                     });
                     div.appendChild(tags);
@@ -1385,11 +1546,28 @@
                     itemsContainer.className = 'proj-cat-items';
 
                     cat.projects.forEach(proj => {
+                        const isClickable = proj.link && (proj.link.startsWith('http') || proj.link.startsWith('github') || proj.link.startsWith('www'));
                         const div = document.createElement('div');
                         div.className = 'project-item';
+                        if (isClickable) {
+                            div.style.cursor = 'pointer';
+                            div.style.textDecoration = 'none';
+                            div.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                let url = proj.link;
+                                if (!url.startsWith('http')) {
+                                    url = 'https://' + url;
+                                }
+                                window.open(url, '_blank');
+                            });
+                        }
                         const title = document.createElement('div');
                         title.className = 'proj-title';
                         title.textContent = proj.title;
+                        if (isClickable) {
+                            title.style.color = '#7e93d0';
+                            title.style.textDecoration = 'none';
+                        }
                         div.appendChild(title);
                         const type = document.createElement('div');
                         type.className = 'proj-type';
@@ -1535,6 +1713,16 @@
 
         mainNode.addEventListener('click', function(e) {
             e.stopPropagation();
+            const license = document.getElementById('licenseContainer');
+            
+            // Hide license if it's displayed
+            if (license && !license.classList.contains('hidden-level')) {
+                license.classList.add('hidden-level');
+                // Reset toolbar active button to home
+                document.querySelectorAll('.toolbar-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.toolbar-btn[data-section="home"]').classList.add('active');
+            }
+            
             subLevelContainer.classList.toggle('hidden-level');
             mainIcon.classList.toggle('collapsed');
 
@@ -1650,23 +1838,46 @@
                 document.querySelectorAll('.toolbar-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 const section = this.dataset.section;
+                const subLevel = document.getElementById('subLevelContainer');
+                const nested = document.getElementById('nestedContainer');
+                const svg = document.getElementById('connectorSvg');
+                const license = document.getElementById('licenseContainer');
+                const mainIcon = document.getElementById('mainToggleIcon');
+                
+                // Hide all containers first
+                if (subLevel) subLevel.classList.add('hidden-level');
+                
+                if (nested) nested.querySelectorAll('.nested-level').forEach(el => el.classList.add('hidden-level'));
+                if (nested) nested.classList.add('hidden-level');
+                if (svg) svg.innerHTML = '';
+                if (license) license.classList.add('hidden-level');
+                if (mainIcon) mainIcon.classList.remove('collapsed');
+                
                 if (section === 'home') {
+                    if (subLevel) subLevel.classList.remove('hidden-level');
+                    refreshConnectors();
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else if (section === 'projects') {
+                    if (subLevel) subLevel.classList.remove('hidden-level');
+                    refreshConnectors();
                     const projNode = document.querySelector('.sub-node[data-target="projects"]');
                     if (projNode) {
                         projNode.click();
                         projNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 } else if (section === 'websites') {
+                    if (subLevel) subLevel.classList.remove('hidden-level');
+                    refreshConnectors();
                     const basicNode = document.querySelector('.sub-node[data-target="basic"]');
                     if (basicNode) {
                         basicNode.click();
                         basicNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 } else if (section === 'license') {
-                    const footer = document.querySelector('.site-footer');
-                    if (footer) footer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (license) {
+                        license.classList.remove('hidden-level');
+                        license.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 }
             });
         });
